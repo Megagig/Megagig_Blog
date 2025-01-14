@@ -1,11 +1,12 @@
 import { Github, Linkedin, Twitter } from 'lucide-react';
+import Image from '../../../components/Image';
 
 const Hero = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 space-y-6">
+          <div className="flex-1 space-y-6 ">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900">
               Hi, I&apos;m Anthony
               <span className="block text-blue-600">Full Stack Developer</span>
@@ -45,11 +46,16 @@ const Hero = () => {
             </div>
           </div>
           <div className="flex-1 px-16 md:px-8 lg:px-12">
-            <img
-              src="/profile.jpeg"
+            <Image
+              src="profile.jpeg"
               alt="Anthony"
               className="rounded-2xl shadow-2xl"
             />
+            {/* <img
+              src="/profile.jpeg"
+              alt="Anthony"
+              className="rounded-2xl shadow-2xl"
+            /> */}
           </div>
         </div>
       </div>

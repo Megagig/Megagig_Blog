@@ -41,6 +41,14 @@ const projects = [
     live: 'https://blog-demo.com',
     tags: ['React', 'Next.js', 'MongoDB'],
   },
+  {
+    title: 'Social Media Dashboard',
+    description: 'Analytics dashboard for social media management',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f',
+    github: 'https://github.com/yourusername/dashboard',
+    live: 'https://dashboard-demo.com',
+    tags: ['React', 'D3.js', 'API'],
+  },
 ];
 
 const Portfolio = () => {

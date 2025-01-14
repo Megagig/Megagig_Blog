@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from './Image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,7 +7,7 @@ const Navbar = () => {
     <div className="w-full h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12">
       {/* LOGO */}
       <div className="flex items-center gap-4 text-2xl font-bold">
-        <img src="/logo.png" className="w-8 h-8" alt="logo" />
+        <Image src="logo.png" alt="Megagig logo" w={32} h={32} />
         <span>Bringing Tech To Your Doorstep</span>
       </div>
       {/* MOBILE MENU */}
