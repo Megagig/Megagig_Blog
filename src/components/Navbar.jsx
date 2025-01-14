@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from './Image';
 import { Link } from 'react-router-dom';
+import { SignedOut, SignedIn, UserButton } from '@clerk/clerk-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,15 +45,19 @@ const Navbar = () => {
           </div>
           <Link to="/">About</Link>
           <Link to="/">Contact</Link>
-          <Link to="/">
-            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-              Login 🚀
-            </button>
-          </Link>
+          <SignedOut>
+            <Link to="/login">
+              <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+                Login 🚀
+              </button>
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
-      {/* DESKTOP MENU  */}
-      {/* DESKTOP MENU  */}
+      {/* DESKTOP MENU */}
       <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
         <Link to="/">Home</Link>
         <Link to="/">Portfolio</Link>
@@ -71,12 +76,17 @@ const Navbar = () => {
           </div>
         </div>
         <Link to="/">About</Link>
-        <Link to="">Contact</Link>
-        <Link to="/">
-          <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-            Login 🚀
-          </button>
-        </Link>
+        <Link to="/">Contact</Link>
+        <SignedOut>
+          <Link to="/login">
+            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+              Login 🚀
+            </button>
+          </Link>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </div>
   );
