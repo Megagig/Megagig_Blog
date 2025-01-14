@@ -51,11 +51,6 @@ const Hero = () => {
               alt="Anthony"
               className="rounded-2xl shadow-2xl"
             />
-            {/* <img
-              src="/profile.jpeg"
-              alt="Anthony"
-              className="rounded-2xl shadow-2xl"
-            /> */}
           </div>
         </div>
       </div>

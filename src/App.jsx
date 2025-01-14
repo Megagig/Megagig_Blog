@@ -1,19 +1,10 @@
-import Navbar from './components/Navbar';
-import HomeRoute from './routes/HomeRoute';
-import Footer from './components/Footer';
-
 const App = () => {
   return (
-    <div className="">
-      <Navbar />
-      <HomeRoute />
-      <Footer />
-      {/* <Navbar />
-   
-      <BeadCrumbs />
+    <div>
+      {/* <BeadCrumbs />
       <Introduction />
       <Featured Posts />
-      <Post List/>
+      <Post List />
       <Navbar /> */}
     </div>
   );

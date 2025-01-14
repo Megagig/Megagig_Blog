@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import Image from './Image';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12">
       {/* LOGO */}
-      <div className="flex items-center gap-4 text-2xl font-bold">
+      <Link to="/" className="flex items-center gap-4 text-2xl font-bold">
         <Image src="logo.png" alt="Megagig logo" w={32} h={32} />
-        <span>Bringing Tech To Your Doorstep</span>
-      </div>
+        <>Bringing Tech To Your Doorstep</>
+      </Link>
       {/* MOBILE MENU */}
       <div className="md:hidden">
         {/* MOBILE BUTTON */}
@@ -25,57 +26,57 @@ const Navbar = () => {
             isOpen ? 'left-0' : '-left-full'
           } transition-all duration-500`}
         >
-          <a href="">Home</a>
-          <a href="">Portfolio</a>
-          <a href="">Services</a>
+          <Link to="/">Home</Link>
+          <Link to="/">Portfolio</Link>
+          <Link to="/">Services</Link>
           <div className="relative group">
-            <a href="" className="group-hover:text-gray-700">
+            <Link to="" className="group-hover:text-gray-700">
               Blog
-            </a>
+            </Link>
             <div className="absolute hidden group-hover:block bg-white shadow-lg ">
-              <a href="" className="block px-4 py-2">
+              <Link to="" className="block px-4 py-2">
                 Trending
-              </a>
-              <a href="" className="block px-4 py-2">
+              </Link>
+              <Link to="" className="block px-4 py-2">
                 Most Popular
-              </a>
+              </Link>
             </div>
           </div>
-          <a href="">About</a>
-          <a href="">Contact</a>
-          <a href="">
+          <Link to="/">About</Link>
+          <Link to="/">Contact</Link>
+          <Link to="/">
             <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
               Login 🚀
             </button>
-          </a>
+          </Link>
         </div>
       </div>
       {/* DESKTOP MENU  */}
       {/* DESKTOP MENU  */}
       <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
-        <a href="">Home</a>
-        <a href="">Portfolio</a>
-        <a href="">Services</a>
+        <Link to="/">Home</Link>
+        <Link to="/">Portfolio</Link>
+        <Link to="/">Services</Link>
         <div className="relative group">
-          <a href="" className="group-hover:text-gray-700">
+          <Link to="/" className="group-hover:text-gray-700">
             Blog
-          </a>
+          </Link>
           <div className="absolute hidden group-hover:block bg-white shadow-lg">
-            <a href="" className="block px-4 py-2">
+            <Link to="" className="block px-4 py-2">
               Trending
-            </a>
-            <a href="" className="block px-4 py-2">
+            </Link>
+            <Link to="" className="block px-4 py-2">
               Most Popular
-            </a>
+            </Link>
           </div>
         </div>
-        <a href="">About</a>
-        <a href="">Contact</a>
-        <a href="">
+        <Link to="/">About</Link>
+        <Link to="">Contact</Link>
+        <Link to="/">
           <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
             Login 🚀
           </button>
-        </a>
+        </Link>
       </div>
     </div>
   );
