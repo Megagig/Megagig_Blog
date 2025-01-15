@@ -1,5 +1,6 @@
 import { Github, Linkedin, Twitter } from 'lucide-react';
 import Image from '../../../components/Image';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -17,12 +18,17 @@ const Hero = () => {
               combine elegant design with robust functionality.
             </p>
             <div className="flex gap-4">
-              <button className="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition">
-                View My Work
-              </button>
-              <button className="border-2 border-gray-300 px-8 py-3 rounded-full font-medium hover:border-blue-600 hover:text-blue-600 transition">
-                Contact Me
-              </button>
+              <Link to="/portfolio">
+                <button className="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition">
+                  View My Work
+                </button>
+              </Link>
+
+              <Link to="/contact">
+                <button className="border-2 border-gray-300 px-8 py-3 rounded-full font-medium hover:border-blue-600 hover:text-blue-600 transition">
+                  Hire Me
+                </button>
+              </Link>
             </div>
             <div className="flex gap-6 pt-4">
               <a
