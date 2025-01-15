@@ -28,7 +28,7 @@ const Navbar = () => {
           } transition-all duration-500`}
         >
           <Link to="/">Home</Link>
-          <Link to="/">Portfolio</Link>
+          <Link to="/portfolio">Portfolio</Link>
           <Link to="/">Services</Link>
           <div className="relative group">
             <Link to="" className="group-hover:text-gray-700">
@@ -60,7 +60,7 @@ const Navbar = () => {
       {/* DESKTOP MENU */}
       <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
         <Link to="/">Home</Link>
-        <Link to="/">Portfolio</Link>
+        <Link to="/portfolio">Portfolio</Link>
         <Link to="/">Services</Link>
         <div className="relative group">
           <Link to="/blog" className="group-hover:text-gray-700">
