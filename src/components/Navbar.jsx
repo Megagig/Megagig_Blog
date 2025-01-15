@@ -63,7 +63,7 @@ const Navbar = () => {
         <Link to="/">Portfolio</Link>
         <Link to="/">Services</Link>
         <div className="relative group">
-          <Link to="/" className="group-hover:text-gray-700">
+          <Link to="/blog" className="group-hover:text-gray-700">
             Blog
           </Link>
           <div className="absolute hidden group-hover:block bg-white shadow-lg">

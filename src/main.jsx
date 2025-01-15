@@ -12,6 +12,7 @@ import MainLayout from './layouts/MainLayout.jsx';
 import PortfolioPage from './pages/portfolio/PortfolioPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
+import Blog from './pages/blog/Blog.jsx';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: '/services',
         element: <PortfolioPage />,
+      },
+      {
+        path: '/blog',
+        element: <Blog />,
       },
       {
         path: '/about',
