@@ -16,6 +16,7 @@ import Blog from './pages/blog/Blog.jsx';
 import ShopPage from './pages/shop/ShopPage';
 import ProductDetailsPage from './pages/shop/ProductDetailsPage';
 import CheckoutPage from './pages/shop/CheckoutPage';
+import ContactPage from './pages/contact/ContactPage.jsx';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/contact',
-        element: <PortfolioPage />,
+        element: <ContactPage />,
       },
       {
         path: '/services',

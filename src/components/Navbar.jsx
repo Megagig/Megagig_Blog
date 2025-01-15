@@ -45,7 +45,7 @@ const Navbar = () => {
           </div>
           <Link to="/">About</Link>
           <Link to="/shop">Shop</Link>
-          <Link to="/">Contact</Link>
+          <Link to="/contact">Contact</Link>
           <SignedOut>
             <Link to="/login">
               <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
@@ -78,7 +78,7 @@ const Navbar = () => {
         </div>
         <Link to="/">About</Link>
         <Link to="/shop">Shop</Link>
-        <Link to="/">Contact</Link>
+        <Link to="/contact">Contact</Link>
         <SignedOut>
           <Link to="/login">
             <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
