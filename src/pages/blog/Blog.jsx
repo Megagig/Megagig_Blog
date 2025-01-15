@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import BlogCategories from './components/BlogCategories';
 import FeaturedPosts from './components/FeaturedPosts';
+import PostList from './components/PostList';
 
 const Blog = () => {
   return (
-    <div className="mt-4 flex flex-col gap-4">
+    <div className="mt-4 flex flex-col gap-4 px-4 md:px-8 lg:px-16">
       {/* BREADCRUMBS  */}
       <div className="flex gap-4">
         <Link href="/home"></Link>
@@ -73,6 +74,10 @@ const Blog = () => {
         <FeaturedPosts />
       </div>
       {/* POST LIST  */}
+      <div className="">
+        <h1 className="my-8 text-2xl text-gray-600">Recent Posts</h1>
+        <PostList />
+      </div>
     </div>
   );
 };

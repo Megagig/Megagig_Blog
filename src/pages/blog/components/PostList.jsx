@@ -1,7 +1,16 @@
+import PostListItem from './PostListItem';
+
 const PostList = () => {
   return (
-    <div>
-      <h1>Post list</h1>
+    <div className="flex flex-col gap-12 mb-8">
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
+      <PostListItem />
     </div>
   );
 };

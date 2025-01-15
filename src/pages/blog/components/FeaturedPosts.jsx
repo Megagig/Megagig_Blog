@@ -7,7 +7,11 @@ const FeaturedPosts = () => {
       {/* First */}
       <div className="w-full lg:w-1/2 flex flex-col gap-4">
         {/* image */}
-        <Image src="featured1.jpeg" className="rounded-3xl object-cover" />
+        <Image
+          src="featured1.jpeg"
+          className="rounded-3xl object-cover"
+          w="895"
+        />
         {/* Details */}
         <div className="flex items-center gap-4 text-sm lg:text-base mb-4">
           <h1 className="font-semibold">02.</h1>
@@ -52,7 +56,7 @@ const FeaturedPosts = () => {
         <div className="lg:h-1/3 flex justify-between gap-4">
           {/* image */}
           <Image
-            src="featured2.jpeg"
+            src="featured3.jpeg"
             className="rounded-3xl object-cover w-1/3 aspect-video"
           />
           {/* Details and Title */}
@@ -76,7 +80,7 @@ const FeaturedPosts = () => {
         <div className="lg:h-1/3 flex justify-between gap-4">
           {/* image */}
           <Image
-            src="featured2.jpeg"
+            src="featured4.jpeg"
             className="rounded-3xl object-cover w-1/3 aspect-video"
           />
           {/* Details and Title */}
