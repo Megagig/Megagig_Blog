@@ -56,7 +56,7 @@ const Write = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col p-6 md:p-12 lg:p-24 bg-[#E6E6FF]">
+    <div className="min-h-screen flex flex-col p-6 md:p-12 lg:p-24 bg-[#F9FAFB]">
       <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
         Create a New Post
       </h1>
