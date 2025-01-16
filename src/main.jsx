@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import HomeRoute from './routes/HomeRoute.jsx';
-import PostListPage from './routes/PostListPage';
+import PostListPage from './pages/blog/components/PostListPage';
 import Write from './pages/blog/components/Write';
 import LoginPage from './routes/LoginPage';
 import RegisterPage from './routes/RegisterPage';
