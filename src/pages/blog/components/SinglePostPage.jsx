@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import Image from '../components/Image';
-import PostMenuActions from '../pages/Home/components/PostMenuActions';
-import Search from '../components/Search';
+import Image from '../../../components/Image';
+import PostMenuActions from '../../Home/components/PostMenuActions';
+import Search from '../../../components/Search';
+import Comments from './Comments';
 
 const SinglePostPage = () => {
   return (
@@ -144,6 +145,7 @@ const SinglePostPage = () => {
           <Search />
         </div>
       </div>
+      <Comments />
     </div>
   );
 };

@@ -123,18 +123,18 @@ const Footer = () => {
                   href="mailto:anthony@example.com"
                   className="hover:text-white"
                 >
-                  anthony@example.com
+                  megagigdev@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2 text-gray-400">
                 <Phone size={20} />
                 <a href="tel:+1234567890" className="hover:text-white">
-                  (123) 456-7890
+                  +234 8060 374755
                 </a>
               </li>
               <li className="flex items-center gap-2 text-gray-400">
                 <MapPin size={20} />
-                <span>New York, NY</span>
+                <span>Lagos, Nigeria</span>
               </li>
             </ul>
           </div>

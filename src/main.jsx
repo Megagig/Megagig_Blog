@@ -7,7 +7,7 @@ import PostListPage from './routes/PostListPage';
 import Write from './routes/Write';
 import LoginPage from './routes/LoginPage';
 import RegisterPage from './routes/RegisterPage';
-import SinglePostPage from './routes/SinglePostPage';
+import SinglePostPage from './pages/blog/components/SinglePostPage';
 import MainLayout from './layouts/MainLayout.jsx';
 import PortfolioPage from './pages/portfolio/PortfolioPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
