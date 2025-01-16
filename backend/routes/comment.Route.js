@@ -6,3 +6,4 @@ const router = express.Router();
 
 router.get('/', createComment);
 export default router;
+router.post('/', createComment);
