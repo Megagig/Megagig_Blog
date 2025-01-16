@@ -4,7 +4,7 @@ import './index.css';
 
 import HomeRoute from './routes/HomeRoute.jsx';
 import PostListPage from './routes/PostListPage';
-import Write from './routes/Write';
+import Write from './pages/blog/components/Write';
 import LoginPage from './routes/LoginPage';
 import RegisterPage from './routes/RegisterPage';
 import SinglePostPage from './pages/blog/components/SinglePostPage';
