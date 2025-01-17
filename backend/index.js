@@ -6,6 +6,9 @@ import postRoute from './routes/post.Route.js';
 import commentRoute from './routes/comment.Route.js';
 import projectRoute from './routes/project.Route.js';
 import connectDB from './lib/connectDB.js';
+import catchAsync from './lib/catchAsync.js';
+import AppError from './lib/appError.js';
+import globalErrorHandler from './controllers/errorController.js';
 
 const app = express();
 
@@ -20,6 +23,10 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/posts', postRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/projects', projectRoute);
+
+//handle not found routes
+
+app.use(globalErrorHandler);
 
 const start = async () => {
   try {

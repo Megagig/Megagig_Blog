@@ -1,9 +1,8 @@
+// Used to catch errors in async functions
 const catchAsync = (fn) => {
-  const errorHandler = (req, res, next) => {
+  return (req, res, next) => {
     fn(req, res, next).catch(next);
   };
-
-  return errorHandler;
 };
 
 export default catchAsync;
