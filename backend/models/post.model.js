@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 
 const postSchema = new mongoose.Schema(
   {
@@ -30,6 +31,11 @@ const postSchema = new mongoose.Schema(
     visit: {
       type: Number,
       default: 0,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
   },
   {
