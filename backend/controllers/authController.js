@@ -1,6 +1,11 @@
 import User from '../models/user.Model.js';
-import catchAsync from '../lib/catchAsync';
-import AppError from '../lib/appError';
+import bcryptjs from 'bcryptjs';
+import crypto from 'crypto';
+import catchAsync from '../lib/catchAsync.js';
+import AppError from '../lib/appError.js';
+import { generateVerificationToken } from '../utils/generateVerificationToken.js';
+import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
+import { sendVerificationEmail } from '../utils/emails.js';
 
 export const signup = catchAsync(async (req, res) => {
   // Get user input from request body
@@ -24,10 +29,42 @@ export const signup = catchAsync(async (req, res) => {
   }
 
   //hash password
-  const hashedPassword = await User.hashPassword(password);
+  const hashedPassword = await bcryptjs.hash(password, 10);
 
-  const user = await User.create({ email, password });
-  res.status(201).json({ user });
+  //generate verification code
+  const verificationToken = generateVerificationToken();
+
+  // Create new user
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    username,
+    password: hashedPassword,
+    confirmPassword: hashedPassword,
+    verificationToken,
+    verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
+  });
+
+  // Save user to database
+  await user.save();
+
+  //Creating the JWT and Setting a Cookie
+  generateTokenAndSetCookie(res, user._id);
+
+  //send verification email
+  await sendVerificationEmail(user.email, user.verificationToken);
+
+  // Send response
+  res.status(201).json({
+    success: true,
+    message: 'User created successfully',
+    user: {
+      ...user._doc,
+      password: undefined,
+      confirmPassword: undefined,
+    },
+  });
 });
 
 export const login = async (req, res) => {
