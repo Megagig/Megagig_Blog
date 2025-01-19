@@ -12,8 +12,8 @@ export const sendVerificationEmail = async (email, verificationCode) => {
 
   try {
     const response = await resend.emails.send({
-      // from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
-      from: 'Megagig Solution <no-reply@resend.dev>',
+      from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
+      // from: 'Megagig Solution <no-reply@resend.dev>',
       to: email,
       subject: 'Email Verification',
       html: VERIFICATION_EMAIL_TEMPLATE.replace(
@@ -37,8 +37,8 @@ export const sendWelcomeEmail = async (email, name) => {
 
   try {
     const response = await resend.emails.send({
-      // from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
-      from: 'Megagig Solution <no-reply@resend.dev>',
+      from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
+      // from: 'Megagig Solution <no-reply@resend.dev>',
       to: email, // Updated to use the email string directly
       subject: 'Welcome to Anthony Portfolio and Digital Marketplace', // Ensure subject matches the brand
       html: WELCOME_EMAIL_TEMPLATE.replace('{name}', name),

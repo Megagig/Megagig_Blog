@@ -5,7 +5,7 @@ import catchAsync from '../lib/catchAsync.js';
 import AppError from '../lib/appError.js';
 import { generateVerificationToken } from '../utils/generateVerificationToken.js';
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
-import { sendVerificationEmail } from '../utils/emails.js';
+import { sendVerificationEmail, sendWelcomeEmail } from '../utils/emails.js';
 
 export const signup = catchAsync(async (req, res) => {
   // Get user input from request body
@@ -67,6 +67,48 @@ export const signup = catchAsync(async (req, res) => {
   });
 });
 
+export const verifyEmail = catchAsync(async (req, res) => {
+  const { code } = req.body; // 1. Get the verification code from the request body
+
+  // 2. Find the user by verification code and ensure the token is still valid
+  const user = await User.findOne({
+    verificationToken: code,
+    verificationTokenExpiresAt: { $gt: Date.now() },
+  });
+
+  // console.log('User:', user);
+
+  if (!user) {
+    // If no user is found or the token is expired, return an error
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid or Expired verification token',
+    });
+  }
+
+  // 3. Update the user status to verified and remove the verification token fields
+  user.isVerified = true;
+  user.verificationToken = undefined;
+  user.verificationTokenExpiresAt = undefined;
+
+  // Save the user updates to the database
+  await user.save();
+
+  // 4. Send a welcome email after verification
+  await sendWelcomeEmail(user.email, user.firstName);
+
+  // Send a success response
+  res.status(200).json({
+    success: true,
+    message: 'Email verified successfully! Welcome email has been sent.',
+    user: {
+      ...user._doc,
+      password: undefined,
+      confirmPassword: undefined,
+    },
+  });
+});
+
 export const login = catchAsync(async (req, res) => {
   // Get user input from request body
   const { email, password = '', username } = req.body;
@@ -114,10 +156,12 @@ export const login = catchAsync(async (req, res) => {
     user: {
       ...user._doc,
       password: undefined,
+      confirmPassword: undefined,
     },
   });
 });
 
 export const logout = async (req, res) => {
-  res.send('Logout route');
+  res.clearCookie('authToken');
+  res.status(200).json({ success: true, message: 'Logged out successfully' });
 };

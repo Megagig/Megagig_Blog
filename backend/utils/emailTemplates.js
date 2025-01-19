@@ -69,9 +69,9 @@ export const WELCOME_EMAIL_TEMPLATE = `
     <h1>Welcome to Anthony's Portfolio and Digital Garden, {name}!</h1>
   </div>
   <div class="content">
-    <p>Hi {name},</p>
+    <p>Hi there,</p>
     <p>Thank you for joining our community! We’re excited to have you on board.</p>
-    <p>At Mega Gig Solutions, we strive to provide you with the best experience and support. Feel free to explore our platform and let us know if you have any questions.</p>
+    <p>At Anthony's Portfolio and Digital Garden,, we strive to provide you with the best experience and support. Feel free to explore our platform and let us know if you have any questions.</p>
     <p>If you need assistance, don’t hesitate to reach out to our support team.</p>
     <p>Best regards,<br>Your App Team</p>
   </div>
