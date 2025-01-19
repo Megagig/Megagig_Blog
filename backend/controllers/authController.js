@@ -67,22 +67,57 @@ export const signup = catchAsync(async (req, res) => {
   });
 });
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email }).select('email password').exec();
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-    res.status(200).json({ user });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+export const login = catchAsync(async (req, res) => {
+  // Get user input from request body
+  const { email, password = '', username } = req.body;
+
+  //find the user by email or username
+  const user = await User.findOne({ $or: [{ email }, { username }] });
+  // const user = await User.findOne({ email });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Invalid credentials' });
   }
-};
+
+  //check if password is correct
+  const isPasswordValid = await bcryptjs.compare(password, user.password);
+
+  if (!isPasswordValid) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Invalid credentials' });
+  }
+
+  //Check if user is verified
+  if (!user.isVerified) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Email not verified' });
+  }
+
+  //Creating the JWT and Setting a Cookie
+  generateTokenAndSetCookie(res, user._id);
+
+  //Update last login date
+
+  user.lastlogin = Date.now();
+
+  //save the user
+  await user.save();
+
+  // Send a success response
+
+  res.status(200).json({
+    success: true,
+    message: 'Logged in successfully',
+    user: {
+      ...user._doc,
+      password: undefined,
+    },
+  });
+});
+
 export const logout = async (req, res) => {
   res.send('Logout route');
 };
