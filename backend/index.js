@@ -24,8 +24,12 @@ app.use('/api/v1/posts', postRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/projects', projectRoute);
 
-//handle not found routes
+// HANDLE 404 ERROR
+app.use((req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
+// GLOBAL ERROR HANDLER
 app.use(globalErrorHandler);
 
 const start = async () => {
