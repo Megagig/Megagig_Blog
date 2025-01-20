@@ -7,6 +7,7 @@ import { generateVerificationToken } from '../utils/generateVerificationToken.js
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 import {
   sendPasswordResetEmail,
+  sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
 } from '../utils/emails.js';
@@ -214,12 +215,10 @@ export const resetPassword = catchAsync(async (req, res) => {
       .status(400)
       .json({ success: false, message: 'Token and password required' });
   } else if (password.length < 6) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: 'Password must be at least 6 characters',
-      });
+    return res.status(400).json({
+      success: false,
+      message: 'Password must be at least 6 characters',
+    });
   }
 
   // Check if password and confirmPassword match

@@ -71,3 +71,22 @@ export const sendPasswordResetEmail = async (email, resetToken) => {
 };
 
 // Function to send a password reset success email
+export const sendResetSuccessEmail = async (email, name) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  try {
+    const response = await resend.emails.send({
+      from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
+      to: email, // Updated to use the email string directly
+      subject: 'Password Reset Successful',
+      html: PASSWORD_RESET_SUCCESS_TEMPLATE.replace('{name}', name),
+    });
+
+    console.log('Password reset success email sent successfully', response);
+  } catch (error) {
+    console.error('Error sending password reset success email', error);
+    throw new Error(
+      `Error sending password reset success email: ${error.message}`
+    );
+  }
+};
