@@ -52,7 +52,7 @@ export const sendWelcomeEmail = async (email, name) => {
 };
 
 // Function to send a password reset email
-export const sendPasswordResetEmail = async (email, resetURL) => {
+export const sendPasswordResetEmail = async (email, resetToken) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
@@ -61,7 +61,7 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
       // from: 'Megagig Solution <no-reply@resend.dev>',
       to: email, // Updated to use the email string directly
       subject: 'Reset your password',
-      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetURL}', resetURL),
+      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetToken}', resetToken),
     });
     console.log('Password reset email sent successfully', response);
   } catch (error) {
