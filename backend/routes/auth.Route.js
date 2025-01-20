@@ -3,6 +3,7 @@ import {
   forgotPassword,
   login,
   logout,
+  resetPassword,
   signup,
   verifyEmail,
 } from '../controllers/authController.js';
@@ -17,5 +18,6 @@ router.post('/login', login);
 router.post('/logout', logout);
 
 router.post('/forgot-password', forgotPassword);
+router.post('/reset-passwrod/:token', resetPassword);
 
 export default router;

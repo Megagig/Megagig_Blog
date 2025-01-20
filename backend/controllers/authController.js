@@ -209,16 +209,10 @@ export const resetPassword = catchAsync(async (req, res) => {
   const { token } = req.params;
   const { password, confirmPassword } = req.body;
 
-  // Token and password check
-  if (!token || !password || !confirmPassword) {
+  if (!password || !confirmPassword) {
     return res
       .status(400)
-      .json({ success: false, message: 'Token and password required' });
-  } else if (password.length < 6) {
-    return res.status(400).json({
-      success: false,
-      message: 'Password must be at least 6 characters',
-    });
+      .json({ success: false, message: 'Both password fields are required' });
   }
 
   // Check if password and confirmPassword match
