@@ -174,38 +174,86 @@ export const forgotPassword = catchAsync(async (req, res) => {
   // Extract email from request body
   const { email } = req.body;
 
-  try {
-    // Find the user by email
-    const user = await User.findOne({ email });
+  // Find the user by email
+  const user = await User.findOne({ email });
 
-    // check if user exists
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'User not found' });
-    }
-
-    // Generate a reset token and expiration date
-    const resetToken = crypto.randomBytes(20).toString('hex');
-    const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
-
-    // Update the user with the reset token and expiration date
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpiresAt = resetTokenExpiresAt;
-    await user.save();
-    // Send a reset password email with the reset token link to the user email address (use the sendResetPasswordEmail function) and return a success response
-    await sendPasswordResetEmail(user.email, resetToken);
-    // await sendPasswordResetEmail(
-    //   user.email,
-    //   `${process.env.CLIENT_URL}/reset-password/${resetToken}`
-    // );
-
-    res.status(200).json({
-      success: true,
-      message: 'Password reset email sent successfully',
-    });
-  } catch (error) {
-    console.log('Error in forgot password:', error.message);
-    res.status(400).json({ success: false, message: error.message });
+  // check if user exists
+  if (!user) {
+    return res.status(400).json({ success: false, message: 'User not found' });
   }
+
+  // Generate a reset token and expiration date
+  const resetToken = crypto.randomBytes(20).toString('hex');
+  const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1 hour
+
+  // Update the user with the reset token and expiration date
+  user.resetPasswordToken = resetToken;
+  user.resetPasswordExpiresAt = resetTokenExpiresAt;
+  await user.save();
+  // Send a reset password email with the reset token link to the user email address (use the sendResetPasswordEmail function) and return a success response
+  await sendPasswordResetEmail(user.email, resetToken);
+  // await sendPasswordResetEmail(
+  //   user.email,
+  //   `${process.env.CLIENT_URL}/reset-password/${resetToken}`
+  // );
+
+  res.status(200).json({
+    success: true,
+    message: 'Password reset email sent successfully',
+  });
+});
+
+export const resetPassword = catchAsync(async (req, res) => {
+  // Extract the reset token and new password from the request param and  body
+  const { token } = req.params;
+  const { password, confirmPassword } = req.body;
+
+  // Token and password check
+  if (!token || !password || !confirmPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Token and password required' });
+  } else if (password.length < 6) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Password must be at least 6 characters',
+      });
+  }
+
+  // Check if password and confirmPassword match
+  if (password !== confirmPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Passwords do not match' });
+  }
+
+  // Find the user by reset token and ensure the token is still valid
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpiresAt: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Invalid or expired reset token' });
+  }
+
+  // Hash the new password and update the user's password
+  const hashedPassword = await bcryptjs.hash(password, 10);
+
+  user.password = hashedPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpiresAt = undefined;
+
+  // Save the user updates to the database
+  await user.save();
+
+  // Send a password reset success email
+  await sendResetSuccessEmail(user.email);
+
+  // Send a success response
+  res.status(200).json({ success: true, message: 'Password reset successful' });
 });
