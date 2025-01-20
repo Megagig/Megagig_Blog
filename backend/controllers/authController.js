@@ -5,7 +5,11 @@ import catchAsync from '../lib/catchAsync.js';
 import AppError from '../lib/appError.js';
 import { generateVerificationToken } from '../utils/generateVerificationToken.js';
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
-import { sendVerificationEmail, sendWelcomeEmail } from '../utils/emails.js';
+import {
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from '../utils/emails.js';
 
 export const signup = catchAsync(async (req, res) => {
   // Get user input from request body
@@ -166,7 +170,7 @@ export const logout = catchAsync(async (req, res) => {
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 });
 
-export const forgotPassword = async (req, res) => {
+export const forgotPassword = catchAsync(async (req, res) => {
   // Extract email from request body
   const { email } = req.body;
 
@@ -203,4 +207,4 @@ export const forgotPassword = async (req, res) => {
     console.log('Error in forgot password:', error.message);
     res.status(400).json({ success: false, message: error.message });
   }
-};
+});

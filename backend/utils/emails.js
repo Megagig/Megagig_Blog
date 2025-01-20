@@ -53,15 +53,15 @@ export const sendWelcomeEmail = async (email, name) => {
 
 // Function to send a password reset email
 export const sendPasswordResetEmail = async (email, resetURL) => {
-  const recipient = [{ email }];
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
-    const response = await mailtrapClient.send({
-      from: sender,
-      to: recipient,
+    const response = await resend.emails.send({
+      from: 'Anthony Digital Marketplace <admin@megagigsolution.com>',
+      // from: 'Megagig Solution <no-reply@resend.dev>',
+      to: email, // Updated to use the email string directly
       subject: 'Reset your password',
       html: PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetURL}', resetURL),
-      category: 'password reset',
     });
     console.log('Password reset email sent successfully', response);
   } catch (error) {
