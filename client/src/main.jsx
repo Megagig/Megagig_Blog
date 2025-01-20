@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import './App.jsx';
 
 import HomeRoute from './routes/HomeRoute.jsx';
 import PostListPage from './pages/blog/components/PostListPage';
@@ -11,7 +12,6 @@ import SinglePostPage from './pages/blog/components/SinglePostPage';
 import MainLayout from './layouts/MainLayout.jsx';
 import PortfolioPage from './pages/portfolio/PortfolioPage.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ClerkProvider } from '@clerk/clerk-react';
 import Blog from './pages/blog/Blog.jsx';
 import ShopPage from './pages/shop/ShopPage';
 import ProductDetailsPage from './pages/shop/ProductDetailsPage';
@@ -90,8 +90,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <RouterProvider router={router} />
-    </ClerkProvider>
+    <RouterProvider router={router} />
   </StrictMode>
 );
