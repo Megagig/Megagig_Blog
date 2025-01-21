@@ -1,4 +1,3 @@
-import { useUser } from '@clerk/clerk-react';
 import 'react-quill-new/dist/quill.snow.css';
 import ReactQuill, { Quill } from 'react-quill-new';
 
@@ -39,21 +38,21 @@ CodeBlock.tagName = 'pre';
 Quill.register(CodeBlock);
 
 const Write = () => {
-  const { isLoaded, isSignedIn } = useUser();
+  // const { isLoaded, isSignedIn } = useUser();
 
-  if (!isLoaded) {
-    return (
-      <div className="flex items-center justify-center h-full">Loading...</div>
-    );
-  }
+  // if (!isLoaded) {
+  //   return (
+  //     <div className="flex items-center justify-center h-full">Loading...</div>
+  //   );
+  // }
 
-  if (!isSignedIn) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        Sign in to write a blog post
-      </div>
-    );
-  }
+  // if (!isSignedIn) {
+  //   return (
+  //     <div className="flex items-center justify-center h-full">
+  //       Sign in to write a blog post
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen flex flex-col p-6 md:p-12 lg:p-24 bg-[#F9FAFB]">
