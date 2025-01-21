@@ -9,8 +9,10 @@ import connectDB from './lib/connectDB.js';
 import catchAsync from './lib/catchAsync.js';
 import AppError from './lib/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
+import cors from 'cors';
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
 dotenv.config();
 
