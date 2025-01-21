@@ -250,3 +250,20 @@ export const resetPassword = catchAsync(async (req, res) => {
   // Send a success response
   res.status(200).json({ success: true, message: 'Password reset successful' });
 });
+
+//check if a user is authenticated
+
+export const checkAuth = catchAsync(async (req, res) => {
+  const user = await User.findById(req.user);
+
+  if (!user) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+  res
+    .status(200)
+    .json({
+      success: true,
+      user: { ...user._doc, password: undefined },
+      message: 'User is authenticated',
+    });
+});

@@ -10,6 +10,7 @@ import catchAsync from './lib/catchAsync.js';
 import AppError from './lib/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
@@ -17,6 +18,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 dotenv.config();
 
 app.use(express.json());
+app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
 // ALL ROUTES GO HERE

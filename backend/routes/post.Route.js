@@ -7,13 +7,16 @@ import {
   getPostBySlug,
   updatePost,
 } from '../controllers/postControllers.js';
-import { authentication, authorization } from '../middleware/authentication.js';
+import {
+  authenticateUser,
+  authorization,
+} from '../middleware/authenticateUser.js';
 
 const router = express.Router();
 
 router.post(
   '/',
-  authentication,
+  authenticateUser,
   authorization('admin', 'moderator'),
   createPost
 );
@@ -21,9 +24,9 @@ router.get('/', getAllPosts);
 router.get('/:slug', getPostBySlug);
 router.put(
   '/:slug',
-  authentication,
+  authenticateUser,
   authorization('admin', 'moderator'),
   updatePost
 );
-router.delete('/:slug', authentication, authorization('admin'), deletePost);
+router.delete('/:slug', authenticateUser, authorization('admin'), deletePost);
 export default router;
