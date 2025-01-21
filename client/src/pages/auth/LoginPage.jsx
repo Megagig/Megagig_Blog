@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,9 +11,11 @@ const LoginPage = () => {
     rememberMe: false,
   });
 
+  const { login, isLoading, error } = useAuthStore();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock authentication - Replace with actual auth logic
+    await login(formData.emailOrUsername, formData.password);
+
     const mockUserRole = 'admin'; // This would come from your auth response
 
     // Redirect based on role
@@ -87,6 +90,7 @@ const LoginPage = () => {
           </div>
 
           <div className="flex items-center justify-between">
+            {error && <p className="text-red-500 text-sm">{error.message}</p>}
             <div className="flex items-center">
               <input
                 id="remember-me"
@@ -118,7 +122,7 @@ const LoginPage = () => {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
           >
-            Sign In
+            {isLoading ? 'Loading...' : 'Sign in'}
           </button>
         </form>
 
