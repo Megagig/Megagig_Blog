@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuthStore } from '../../store/authStore';
+import toast from 'react-hot-toast';
+
 const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState(new Array(6).fill(''));
+
+  const { verifyEmail, isLoading } = useAuthStore();
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -21,12 +26,23 @@ const VerifyEmailPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const verificationToken = token.join('');
-    // Handle token verification logic here
-    console.log('Verification token:', verificationToken);
-    // Redirect to the login page after successful verification
-    navigate('/login');
+    try {
+      await verifyEmail(token.join(''));
+      toast.success('Email verified successfully! You can now log in.');
+      navigate('/login');
+    } catch (error) {
+      toast.error(error.message || 'Failed to verify email. Please try again.');
+    }
   };
+
+  // useEffect(() => {
+  //   if (success) {
+  //     toast.success('Email verified successfully! You can now log in.');
+  //     navigate('/login');
+  //   } else if (error) {
+  //     toast.error(error);
+  //   }
+  // }, [success, error, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -55,8 +71,9 @@ const VerifyEmailPage = () => {
             <button
               type="submit"
               className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={isLoading}
             >
-              Verify
+              {isLoading ? 'Verifying...' : 'Verify'}
             </button>
           </div>
         </form>
