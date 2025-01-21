@@ -48,11 +48,13 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
-  login: async (email, password) => {
+  login: async (identifier, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/login`, {
-        email,
+        // Send either email or username as identifier
+        email: identifier.includes('@') ? identifier : undefined,
+        username: identifier.includes('@') ? undefined : identifier,
         password,
       });
       const data = response.data;
