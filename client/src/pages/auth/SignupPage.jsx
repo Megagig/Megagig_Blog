@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, UserCheck } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -13,11 +14,25 @@ const SignupPage = () => {
     confirmPassword: '',
   });
 
+  const { signup, isLoading, error, user } = useAuthStore();
+  console.log(user);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { firstName, lastName, email, username, password, confirmPassword } =
+      formData;
+    await signup(
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      confirmPassword
+    );
     // Mock signup - Replace with actual signup logic
     // By default, new signups are assigned the 'user' role
-    navigate('/login');
+    // navigate('/login');
+    navigate('/verify-email');
   };
 
   return (
@@ -193,13 +208,15 @@ const SignupPage = () => {
                 placeholder="••••••••"
               />
             </div>
+            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           </div>
 
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? 'Loading...' : 'Sign up'}
           </button>
         </form>
 
