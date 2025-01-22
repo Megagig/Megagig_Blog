@@ -1,14 +1,6 @@
-import React from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 
-interface DeleteCommentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  comment: any;
-}
-
-const DeleteCommentModal = ({ isOpen, onClose, onConfirm, comment }: DeleteCommentModalProps) => {
+const DeleteCommentModal = ({ isOpen, onClose, onConfirm, comment }) => {
   if (!isOpen) return null;
 
   return (
@@ -16,7 +8,10 @@ const DeleteCommentModal = ({ isOpen, onClose, onConfirm, comment }: DeleteComme
       <div className="bg-white rounded-xl p-8 max-w-md w-full">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-red-600">Delete Comment</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>

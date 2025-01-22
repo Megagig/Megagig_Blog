@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, MessageSquare } from 'lucide-react';
 
-interface CommentActionModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-  comment: any;
-  action: 'approve' | 'deny';
-}
-
-const CommentActionModal = ({ isOpen, onClose, onSubmit, comment, action }: CommentActionModalProps) => {
+const CommentActionModal = ({ isOpen, onClose, onSubmit, comment, action }) => {
   const [reason, setReason] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ commentId: comment.id, action, reason });
     onClose();
@@ -27,7 +19,10 @@ const CommentActionModal = ({ isOpen, onClose, onSubmit, comment, action }: Comm
           <h2 className="text-2xl font-bold">
             {action === 'approve' ? 'Approve Comment' : 'Deny Comment'}
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -45,14 +40,20 @@ const CommentActionModal = ({ isOpen, onClose, onSubmit, comment, action }: Comm
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {action === 'deny' ? 'Reason for Denial (Optional)' : 'Additional Notes (Optional)'}
+              {action === 'deny'
+                ? 'Reason for Denial (Optional)'
+                : 'Additional Notes (Optional)'}
             </label>
             <textarea
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               rows={4}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder={action === 'deny' ? 'Enter reason for denial...' : 'Add any notes...'}
+              placeholder={
+                action === 'deny'
+                  ? 'Enter reason for denial...'
+                  : 'Add any notes...'
+              }
             />
           </div>
 

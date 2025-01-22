@@ -1,31 +1,69 @@
-import React from 'react';
-import { Search, Filter, ThumbsUp, ThumbsDown, MessageSquare, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import CommentActionModal from '../modals/CommentActionModal';
+import DeleteCommentModal from '../modals/DeleteCommentModal';
+import {
+  Search,
+  Filter,
+  ThumbsUp,
+  ThumbsDown,
+  MessageSquare,
+  Trash2,
+} from 'lucide-react';
 
 const comments = [
   {
     id: 1,
-    author: "John Smith",
-    content: "Great article! Very informative and well-written.",
-    post: "Top Web Development Trends 2024",
-    date: "2024-03-15",
-    status: "approved",
+    author: 'John Smith',
+    content: 'Great article! Very informative and well-written.',
+    post: 'Top Web Development Trends 2024',
+    date: '2024-03-15',
+    status: 'approved',
     likes: 12,
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
   },
   {
     id: 2,
-    author: "Sarah Johnson",
-    content: "This helped me understand the concept better. Thanks!",
-    post: "Getting Started with React",
-    date: "2024-03-14",
-    status: "pending",
+    author: 'Sarah Johnson',
+    content: 'This helped me understand the concept better. Thanks!',
+    post: 'Getting Started with React',
+    date: '2024-03-14',
+    status: 'pending',
     likes: 8,
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
-  }
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80',
+  },
 ];
 
 const CommentsPage = () => {
-  const [selectedStatus, setSelectedStatus] = React.useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const openActionModal = (comment) => {
+    setSelectedComment(comment);
+    setIsActionModalOpen(true);
+  };
+
+  const openDeleteModal = (comment) => {
+    setSelectedComment(comment);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setSelectedComment(null);
+    setIsActionModalOpen(false);
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleActionSubmit = (data) => {
+    console.log('Action submitted:', data);
+    closeModals();
+  };
+
+  const handleDeleteConfirm = () => {
+    console.log('Comment deleted:', selectedComment.id);
+    closeModals();
+  };
 
   return (
     <div className="p-6 bg-gray-50">
@@ -49,7 +87,10 @@ const CommentsPage = () => {
       <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search comments..."
@@ -82,7 +123,9 @@ const CommentsPage = () => {
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <h3 className="font-medium text-gray-900">{comment.author}</h3>
+                    <h3 className="font-medium text-gray-900">
+                      {comment.author}
+                    </h3>
                     <p className="text-sm text-gray-500">
                       on <span className="text-blue-600">{comment.post}</span>
                     </p>
@@ -102,15 +145,26 @@ const CommentsPage = () => {
                     </button>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      comment.status === 'approved'
-                        ? 'bg-green-100 text-green-600'
-                        : 'bg-yellow-100 text-yellow-600'
-                    }`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm ${
+                        comment.status === 'approved'
+                          ? 'bg-green-100 text-green-600'
+                          : 'bg-yellow-100 text-yellow-600'
+                      }`}
+                    >
                       {comment.status}
                     </span>
-                    <button className="p-1 text-gray-600 hover:text-red-600">
+                    <button
+                      onClick={() => openDeleteModal(comment)}
+                      className="p-1 text-gray-600 hover:text-red-600"
+                    >
                       <Trash2 size={18} />
+                    </button>
+                    <button
+                      onClick={() => openActionModal(comment)}
+                      className="p-1 text-gray-600 hover:text-blue-600"
+                    >
+                      <MessageSquare size={18} />
                     </button>
                   </div>
                 </div>
@@ -122,9 +176,7 @@ const CommentsPage = () => {
 
       {/* Pagination */}
       <div className="flex items-center justify-between mt-6">
-        <p className="text-sm text-gray-600">
-          Showing 1 to 10 of 45 comments
-        </p>
+        <p className="text-sm text-gray-600">Showing 1 to 10 of 45 comments</p>
         <div className="flex items-center gap-2">
           <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
             Previous
@@ -143,6 +195,21 @@ const CommentsPage = () => {
           </button>
         </div>
       </div>
+
+      {/* Modals */}
+      <CommentActionModal
+        isOpen={isActionModalOpen}
+        onClose={closeModals}
+        onSubmit={handleActionSubmit}
+        comment={selectedComment}
+        action={selectedComment?.status === 'approved' ? 'deny' : 'approve'}
+      />
+      <DeleteCommentModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeModals}
+        onConfirm={handleDeleteConfirm}
+        comment={selectedComment}
+      />
     </div>
   );
 };
