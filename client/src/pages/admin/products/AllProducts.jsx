@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Search, Filter, Trash2, Edit, Eye, DollarSign } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const products = [
   {
     id: 1,
-    title: "Complete Web Development Course",
-    category: "Course",
+    title: 'Complete Web Development Course',
+    category: 'Course',
     price: 199.99,
-    status: "Active",
-    date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+    status: 'Active',
+    date: '2024-03-15',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
     sales: 145,
-    stock: "Digital",
-    rating: 4.8
+    stock: 'Digital',
+    rating: 4.8,
   },
   // Add more mock products...
 ];
@@ -24,11 +24,11 @@ const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id) => {
     console.log('Delete product:', id);
   };
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id) => {
     console.log('Edit product:', id);
   };
 
@@ -37,7 +37,7 @@ const AllProducts = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">All Products</h1>
-        <button 
+        <button
           onClick={() => navigate('/admin/products/new')}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
         >
@@ -49,7 +49,10 @@ const AllProducts = () => {
       <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search products..."
@@ -82,18 +85,35 @@ const AllProducts = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Product</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Category</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Price</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Sales</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Rating</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Product
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Category
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Price
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Status
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Sales
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Rating
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <tr
+                  key={product.id}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
                       <img
@@ -102,8 +122,12 @@ const AllProducts = () => {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <span className="font-medium text-gray-900">{product.title}</span>
-                        <span className="block text-sm text-gray-500">{product.date}</span>
+                        <span className="font-medium text-gray-900">
+                          {product.title}
+                        </span>
+                        <span className="block text-sm text-gray-500">
+                          {product.date}
+                        </span>
                       </div>
                     </div>
                   </td>
