@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { Search, Filter, Trash2, Edit, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import EditBlogModal from '../modals/EditBlogModal';
+import ViewBlogModal from '../modals/ViewBlogModal';
 
 // Mock data for demonstration
 const blogs = [
   {
     id: 1,
-    title: "Getting Started with React",
-    category: "Development",
-    status: "Published",
-    date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
+    title: 'Getting Started with React',
+    category: 'Development',
+    status: 'Published',
+    date: '2024-03-15',
+    image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee',
     views: 1234,
-    comments: 45
+    comments: 45,
+    content: 'This is the content of the blog post.',
+    excerpt: 'A short excerpt of the blog post.',
   },
   // Add more mock blogs...
 ];
@@ -21,15 +25,29 @@ const AllBlogs = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id) => {
     // Implement delete functionality
     console.log('Delete blog:', id);
   };
 
-  const handleEdit = (id: number) => {
-    // Implement edit functionality
-    console.log('Edit blog:', id);
+  const handleEdit = (blog) => {
+    setSelectedBlog(blog);
+    setIsEditModalOpen(true);
+  };
+
+  const handleView = (blog) => {
+    setSelectedBlog(blog);
+    setIsViewModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setSelectedBlog(null);
+    setIsEditModalOpen(false);
+    setIsViewModalOpen(false);
   };
 
   return (
@@ -37,7 +55,7 @@ const AllBlogs = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">All Blogs</h1>
-        <button 
+        <button
           onClick={() => navigate('/admin/blogs/new')}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
         >
@@ -49,7 +67,10 @@ const AllBlogs = () => {
       <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search blogs..."
@@ -82,18 +103,35 @@ const AllBlogs = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Title</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Category</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Date</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Views</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Comments</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Title
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Category
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Status
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Date
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Views
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Comments
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {blogs.map((blog) => (
-                <tr key={blog.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <tr
+                  key={blog.id}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
                       <img
@@ -101,7 +139,9 @@ const AllBlogs = () => {
                         alt={blog.title}
                         className="w-10 h-10 rounded-lg object-cover"
                       />
-                      <span className="font-medium text-gray-900">{blog.title}</span>
+                      <span className="font-medium text-gray-900">
+                        {blog.title}
+                      </span>
                     </div>
                   </td>
                   <td className="py-4 px-6">
@@ -120,12 +160,15 @@ const AllBlogs = () => {
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handleEdit(blog.id)}
+                        onClick={() => handleEdit(blog)}
                         className="p-1 text-gray-600 hover:text-blue-600"
                       >
                         <Edit size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => handleView(blog)}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Eye size={18} />
                       </button>
                       <button
@@ -166,6 +209,22 @@ const AllBlogs = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <EditBlogModal
+        isOpen={isEditModalOpen}
+        onClose={closeModals}
+        onSubmit={(updatedBlog) => {
+          console.log('Updated blog:', updatedBlog);
+          closeModals();
+        }}
+        blog={selectedBlog}
+      />
+      <ViewBlogModal
+        isOpen={isViewModalOpen}
+        onClose={closeModals}
+        blog={selectedBlog}
+      />
     </div>
   );
 };

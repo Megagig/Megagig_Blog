@@ -1,14 +1,26 @@
-import { useState } from 'react';
-import { X, Image as ImageIcon } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 
 const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }) => {
   const [formData, setFormData] = useState({
-    title: blog.title,
-    category: blog.category,
-    content: blog.content,
-    excerpt: blog.excerpt,
-    status: blog.status,
+    title: '',
+    category: '',
+    content: '',
+    excerpt: '',
+    status: '',
   });
+
+  useEffect(() => {
+    if (blog) {
+      setFormData({
+        title: blog.title,
+        category: blog.category,
+        content: blog.content,
+        excerpt: blog.excerpt,
+        status: blog.status,
+      });
+    }
+  }, [blog]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
