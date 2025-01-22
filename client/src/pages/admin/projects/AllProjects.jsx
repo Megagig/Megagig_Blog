@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Search, Filter, Trash2, Edit, Eye, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const projects = [
   {
     id: 1,
-    title: "E-Commerce Platform",
-    category: "Web Development",
-    status: "Completed",
-    date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1557821552-17105176677c",
-    technologies: ["React", "Node.js", "MongoDB"],
-    client: "TechCorp Inc.",
-    github: "https://github.com/example/project",
-    live: "https://example.com"
+    title: 'E-Commerce Platform',
+    category: 'Web Development',
+    status: 'Completed',
+    date: '2024-03-15',
+    image: 'https://images.unsplash.com/photo-1557821552-17105176677c',
+    technologies: ['React', 'Node.js', 'MongoDB'],
+    client: 'TechCorp Inc.',
+    github: 'https://github.com/example/project',
+    live: 'https://example.com',
   },
   // Add more mock projects...
 ];
@@ -24,11 +24,11 @@ const AllProjects = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id) => {
     console.log('Delete project:', id);
   };
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id) => {
     console.log('Edit project:', id);
   };
 
@@ -37,7 +37,7 @@ const AllProjects = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">All Projects</h1>
-        <button 
+        <button
           onClick={() => navigate('/admin/projects/new')}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
         >
@@ -49,7 +49,10 @@ const AllProjects = () => {
       <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search projects..."
@@ -82,18 +85,35 @@ const AllProjects = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Project</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Category</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Technologies</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Client</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Links</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Project
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Category
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Status
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Technologies
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Client
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Links
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {projects.map((project) => (
-                <tr key={project.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <tr
+                  key={project.id}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
                       <img
@@ -102,8 +122,12 @@ const AllProjects = () => {
                         className="w-10 h-10 rounded-lg object-cover"
                       />
                       <div>
-                        <span className="font-medium text-gray-900">{project.title}</span>
-                        <span className="block text-sm text-gray-500">{project.date}</span>
+                        <span className="font-medium text-gray-900">
+                          {project.title}
+                        </span>
+                        <span className="block text-sm text-gray-500">
+                          {project.date}
+                        </span>
                       </div>
                     </div>
                   </td>

@@ -1,13 +1,6 @@
-import React from 'react';
 import { X, Github, ExternalLink } from 'lucide-react';
 
-interface ViewProjectModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  project: any;
-}
-
-const ViewProjectModal = ({ isOpen, onClose, project }: ViewProjectModalProps) => {
+const ViewProjectModal = ({ isOpen, onClose, project }) => {
   if (!isOpen) return null;
 
   return (
@@ -15,7 +8,10 @@ const ViewProjectModal = ({ isOpen, onClose, project }: ViewProjectModalProps) =
       <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">View Project</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -47,7 +43,7 @@ const ViewProjectModal = ({ isOpen, onClose, project }: ViewProjectModalProps) =
           <div>
             <h4 className="font-medium text-gray-900 mb-2">Technologies</h4>
             <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech: string, index: number) => (
+              {project.technologies.map((tech, index) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"

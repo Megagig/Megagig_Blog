@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, Link as LinkIcon, Code } from 'lucide-react';
 
-interface EditProjectModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-  project: any;
-}
-
-const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectModalProps) => {
+const EditProjectModal = ({ isOpen, onClose, onSubmit, project }) => {
   const [formData, setFormData] = useState({
     title: project.title,
     category: project.category,
@@ -16,15 +9,15 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
     technologies: project.technologies.join(', '),
     github: project.github,
     live: project.live,
-    status: project.status
+    status: project.status,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({
       ...project,
       ...formData,
-      technologies: formData.technologies.split(',').map(tech => tech.trim())
+      technologies: formData.technologies.split(',').map((tech) => tech.trim()),
     });
     onClose();
   };
@@ -36,7 +29,10 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
       <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Edit Project</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -49,7 +45,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
             <input
               type="text"
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -60,7 +58,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
             </label>
             <select
               value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Web Development">Web Development</option>
@@ -75,7 +75,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
             </label>
             <textarea
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               rows={6}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -88,7 +90,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
             <input
               type="text"
               value={formData.technologies}
-              onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, technologies: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -98,11 +102,16 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
               GitHub URL
             </label>
             <div className="relative">
-              <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Code
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="url"
                 value={formData.github}
-                onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, github: e.target.value })
+                }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -113,11 +122,16 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
               Live Demo URL
             </label>
             <div className="relative">
-              <LinkIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <LinkIcon
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="url"
                 value={formData.live}
-                onChange={(e) => setFormData({ ...formData, live: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, live: e.target.value })
+                }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -134,7 +148,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
                   name="status"
                   value="completed"
                   checked={formData.status === 'completed'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="text-blue-600 focus:ring-blue-500"
                 />
                 <span>Completed</span>
@@ -145,7 +161,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
                   name="status"
                   value="in-progress"
                   checked={formData.status === 'in-progress'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="text-blue-600 focus:ring-blue-500"
                 />
                 <span>In Progress</span>
@@ -156,7 +174,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }: EditProjectMod
                   name="status"
                   value="draft"
                   checked={formData.status === 'draft'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="text-blue-600 focus:ring-blue-500"
                 />
                 <span>Draft</span>
