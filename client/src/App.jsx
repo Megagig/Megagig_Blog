@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
@@ -6,8 +8,7 @@ import './index.css';
 import HomeRoute from './routes/HomeRoute.jsx';
 import PostListPage from './pages/blog/components/PostListPage';
 import Write from './pages/blog/components/Write';
-// import LoginPage from './routes/LoginPage';
-import RegisterPage from './routes/RegisterPage';
+
 import SinglePostPage from './pages/blog/components/SinglePostPage';
 import MainLayout from './layouts/MainLayout.jsx';
 import PortfolioPage from './pages/portfolio/PortfolioPage.jsx';
@@ -23,6 +24,8 @@ import SignupPage from './pages/auth/SignupPage';
 import VerifyEmailPage from './pages/auth/VerifyEmailPage.jsx';
 import LoginPage from './pages/auth/LoginPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import { useAuthStore } from './store/authStore.js';
+import ProtectedRoute from './routes/ProtectedRoute.jsx';
 
 // Admin Routes
 import AdminLayout from './layouts/AdminLayout';
@@ -39,6 +42,7 @@ import AddProduct from './pages/admin/products/AddProduct';
 import AnalyticsPage from './pages/admin/analytics/AnalyticsPage';
 import CommentsPage from './pages/admin/comments/CommentsPage';
 import UsersPage from './pages/admin/users/UsersPage';
+import NotificationsPage from './pages/admin/notifications/NotificationsPage';
 
 const router = createBrowserRouter([
   {
@@ -58,10 +62,6 @@ const router = createBrowserRouter([
         element: <Write />,
       },
 
-      {
-        path: '/register',
-        element: <RegisterPage />,
-      },
       {
         path: '/portfolio',
         element: <PortfolioPage />,
@@ -118,7 +118,7 @@ const router = createBrowserRouter([
       // Admin Routes
       {
         path: '/admin',
-        element: <AdminLayout />,
+        element: <ProtectedRoute element={<AdminLayout />} />,
         children: [
           {
             path: 'dashboard',
@@ -169,6 +169,10 @@ const router = createBrowserRouter([
             element: <CommentsPage />,
           },
           {
+            path: 'notifications',
+            element: <NotificationsPage />,
+          },
+          {
             path: 'users',
             element: <UsersPage />,
           },
@@ -179,6 +183,21 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const { isCheckingAuth, checkAuth, logout, user } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+  console.log(user);
+
+  if (isCheckingAuth) {
+    return <div>Loading...</div>;
+  }
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <div>
       <RouterProvider router={router} />

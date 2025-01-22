@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
+import toast from 'react-hot-toast';
 
 const ForgotPasswordPage = () => {
+  const { token } = useParams();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     email: '',
@@ -11,15 +15,39 @@ const ForgotPasswordPage = () => {
     confirmPassword: '',
   });
 
-  const handleSubmit = (e) => {
+  const { forgotPassword, isLoading, message, error, resetPassword } =
+    useAuthStore();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (step === 1) {
       // Handle sending reset token
-      console.log('Sending reset token to:', formData.email);
-      setStep(2);
+      try {
+        await forgotPassword(formData.email);
+        toast.success('Reset token sent to your email');
+        setStep(2);
+      } catch (error) {
+        toast.error(error.message || 'Failed to send reset token');
+      }
     } else {
       // Handle password reset
       console.log('Resetting password with token:', formData.token);
+      // Add logic for resetting password here
+      if (formData.newPassword !== formData.confirmPassword) {
+        return toast.error('Passwords do not match');
+      }
+
+      try {
+        await resetPassword(
+          formData.token,
+          formData.newPassword,
+          formData.confirmPassword
+        );
+        toast.success('Password reset successfully');
+        navigate('/login'); // Navigate to login page after successful password reset
+      } catch (error) {
+        toast.error(error.message || 'Failed to reset password');
+      }
     }
   };
 
@@ -144,12 +172,14 @@ const ForgotPasswordPage = () => {
               </div>
             </>
           )}
-
+          {message && <p className="text-sm text-green-500">{message}</p>}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
           >
             {step === 1 ? 'Send Reset Token' : 'Reset Password'}
+
+            {isLoading && <span className="ml-2 animate-spin">...</span>}
           </button>
         </form>
 
