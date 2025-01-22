@@ -18,7 +18,9 @@ const EditProjectModal = ({ isOpen, onClose, onSubmit, project }) => {
         title: project.title,
         category: project.category,
         description: project.description,
-        technologies: project.technologies.join(', '),
+        technologies: project.technologies
+          ? project.technologies.join(', ')
+          : '', // Ensure technologies is defined
         github: project.github,
         live: project.live,
         status: project.status,

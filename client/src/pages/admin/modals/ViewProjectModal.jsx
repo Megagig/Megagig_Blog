@@ -43,14 +43,18 @@ const ViewProjectModal = ({ isOpen, onClose, project }) => {
           <div>
             <h4 className="font-medium text-gray-900 mb-2">Technologies</h4>
             <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
-                >
-                  {tech}
-                </span>
-              ))}
+              {project.technologies && project.technologies.length > 0 ? (
+                project.technologies.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm"
+                  >
+                    {tech}
+                  </span>
+                ))
+              ) : (
+                <span className="text-gray-600">No technologies listed.</span>
+              )}
             </div>
           </div>
 

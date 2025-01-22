@@ -1,26 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Edit, Eye, Trash2 } from 'lucide-react';
+import EditProjectModal from '../modals/EditProjectModal'; // Import EditProjectModal
+import ViewProjectModal from '../modals/ViewProjectModal'; // Import ViewProjectModal
+import DeleteProjectModal from '../modals/DeleteProjectModal'; // Import DeleteProjectModal
 
 const draftProjects = [
   {
     id: 1,
-    title: "AI-Powered Chat Application",
-    category: "Web Development",
-    lastModified: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-    status: "In Progress"
+    title: 'AI-Powered Chat Application',
+    category: 'Web Development',
+    lastModified: '2024-03-15',
+    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5',
+    status: 'In Progress',
+    description: 'A chat application powered by AI.',
   },
   {
     id: 2,
-    title: "E-commerce Mobile App",
-    category: "Mobile Development",
-    lastModified: "2024-03-14",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c",
-    status: "Planning"
-  }
+    title: 'E-commerce Mobile App',
+    category: 'Mobile Development',
+    lastModified: '2024-03-14',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c',
+    status: 'Planning',
+    description: 'A mobile application for e-commerce.',
+  },
 ];
 
 const DraftProjects = () => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const openEditModal = (project) => {
+    setSelectedProject(project);
+    setIsEditModalOpen(true);
+  };
+
+  const openViewModal = (project) => {
+    setSelectedProject(project);
+    setIsViewModalOpen(true);
+  };
+
+  const openDeleteModal = (project) => {
+    setSelectedProject(project);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setSelectedProject(null);
+    setIsEditModalOpen(false);
+    setIsViewModalOpen(false);
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDelete = (id) => {
+    console.log('Delete project:', id);
+    // Logic to delete the project from the list
+    closeModals();
+  };
+
   return (
     <div className="p-6 bg-gray-50">
       <div className="flex justify-between items-center mb-6">
@@ -32,7 +70,10 @@ const DraftProjects = () => {
 
       <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             placeholder="Search drafts..."
@@ -46,16 +87,29 @@ const DraftProjects = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Title</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Category</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Last Modified</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Title
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Category
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Status
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Last Modified
+                </th>
+                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {draftProjects.map((project) => (
-                <tr key={project.id} className="border-b border-gray-200 hover:bg-gray-50">
+                <tr
+                  key={project.id}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
                       <img
@@ -63,7 +117,9 @@ const DraftProjects = () => {
                         alt={project.title}
                         className="w-10 h-10 rounded-lg object-cover"
                       />
-                      <span className="font-medium text-gray-900">{project.title}</span>
+                      <span className="font-medium text-gray-900">
+                        {project.title}
+                      </span>
                     </div>
                   </td>
                   <td className="py-4 px-6">
@@ -76,16 +132,27 @@ const DraftProjects = () => {
                       {project.status}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-gray-600">{project.lastModified}</td>
+                  <td className="py-4 px-6 text-gray-600">
+                    {project.lastModified}
+                  </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-2">
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => openEditModal(project)}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Edit size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => openViewModal(project)}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Eye size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-red-600">
+                      <button
+                        onClick={() => openDeleteModal(project)}
+                        className="p-1 text-gray-600 hover:text-red-600"
+                      >
                         <Trash2 size={18} />
                       </button>
                     </div>
@@ -96,6 +163,29 @@ const DraftProjects = () => {
           </table>
         </div>
       </div>
+
+      {/* Modals */}
+      <EditProjectModal
+        isOpen={isEditModalOpen}
+        onClose={closeModals}
+        onSubmit={(updatedProject) => {
+          console.log('Updated project:', updatedProject);
+          // Logic to update the project
+          closeModals();
+        }}
+        project={selectedProject}
+      />
+      <ViewProjectModal
+        isOpen={isViewModalOpen}
+        onClose={closeModals}
+        project={selectedProject}
+      />
+      <DeleteProjectModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeModals}
+        onConfirm={() => handleDelete(selectedProject?.id)}
+        project={selectedProject}
+      />
     </div>
   );
 };
