@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, DollarSign } from 'lucide-react';
 
 const EditProductModal = ({ isOpen, onClose, onSubmit, product }) => {
   const [formData, setFormData] = useState({
-    title: product.title,
-    category: product.category,
-    price: product.price,
-    description: product.description,
-    type: product.type,
-    status: product.status,
+    title: '',
+    category: '',
+    price: 0,
+    description: '',
+    type: 'digital',
+    status: 'active',
   });
+
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        title: product.title,
+        category: product.category,
+        price: product.price,
+        description: product.description,
+        type: product.type,
+        status: product.status,
+      });
+    }
+  }, [product]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

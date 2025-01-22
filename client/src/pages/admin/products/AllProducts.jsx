@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Search, Filter, Trash2, Edit, Eye, DollarSign } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import EditProductModal from '../modals/EditProductModal'; // Import EditProductModal
+import ViewProductModal from '../modals/ViewProductModal'; // Import ViewProductModal
+import DeleteProductModal from '../modals/DeleteProductModal'; // Import DeleteProductModal
 
 // Mock data for demonstration
 const products = [
@@ -15,6 +18,8 @@ const products = [
     sales: 145,
     stock: 'Digital',
     rating: 4.8,
+    description: 'Learn web development from scratch.',
+    type: 'digital',
   },
   // Add more mock products...
 ];
@@ -23,13 +28,37 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const openEditModal = (product) => {
+    setSelectedProduct(product);
+    setIsEditModalOpen(true);
+  };
+
+  const openViewModal = (product) => {
+    setSelectedProduct(product);
+    setIsViewModalOpen(true);
+  };
+
+  const openDeleteModal = (product) => {
+    setSelectedProduct(product);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setSelectedProduct(null);
+    setIsEditModalOpen(false);
+    setIsViewModalOpen(false);
+    setIsDeleteModalOpen(false);
+  };
 
   const handleDelete = (id) => {
     console.log('Delete product:', id);
-  };
-
-  const handleEdit = (id) => {
-    console.log('Edit product:', id);
+    // Logic to delete the product from the list
+    closeModals();
   };
 
   return (
@@ -157,16 +186,19 @@ const AllProducts = () => {
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handleEdit(product.id)}
+                        onClick={() => openEditModal(product)}
                         className="p-1 text-gray-600 hover:text-blue-600"
                       >
                         <Edit size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => openViewModal(product)}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Eye size={18} />
                       </button>
                       <button
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => openDeleteModal(product)}
                         className="p-1 text-gray-600 hover:text-red-600"
                       >
                         <Trash2 size={18} />
@@ -178,31 +210,30 @@ const AllProducts = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-          <div className="text-sm text-gray-600">
-            Showing 1 to 10 of 40 entries
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Previous
-            </button>
-            <button className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-              1
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              2
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              3
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Next
-            </button>
-          </div>
-        </div>
       </div>
+
+      {/* Modals */}
+      <EditProductModal
+        isOpen={isEditModalOpen}
+        onClose={closeModals}
+        onSubmit={(updatedProduct) => {
+          console.log('Updated product:', updatedProduct);
+          // Logic to update the product
+          closeModals();
+        }}
+        product={selectedProduct}
+      />
+      <ViewProductModal
+        isOpen={isViewModalOpen}
+        onClose={closeModals}
+        product={selectedProduct}
+      />
+      <DeleteProductModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeModals}
+        onConfirm={() => handleDelete(selectedProduct.id)}
+        product={selectedProduct}
+      />
     </div>
   );
 };
