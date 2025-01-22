@@ -1,23 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, Image as ImageIcon } from 'lucide-react';
 
-interface EditBlogModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-  blog: any;
-}
-
-const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) => {
+const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }) => {
   const [formData, setFormData] = useState({
     title: blog.title,
     category: blog.category,
     content: blog.content,
     excerpt: blog.excerpt,
-    status: blog.status
+    status: blog.status,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ ...blog, ...formData });
     onClose();
@@ -30,7 +23,10 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
       <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Edit Blog Post</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -43,7 +39,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
             <input
               type="text"
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -54,7 +52,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
             </label>
             <select
               value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Development">Development</option>
@@ -69,7 +69,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
             </label>
             <textarea
               value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, content: e.target.value })
+              }
               rows={8}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -81,7 +83,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
             </label>
             <textarea
               value={formData.excerpt}
-              onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, excerpt: e.target.value })
+              }
               rows={3}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -98,7 +102,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
                   name="status"
                   value="published"
                   checked={formData.status === 'published'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="text-blue-600 focus:ring-blue-500"
                 />
                 <span>Published</span>
@@ -109,7 +115,9 @@ const EditBlogModal = ({ isOpen, onClose, onSubmit, blog }: EditBlogModalProps) 
                   name="status"
                   value="draft"
                   checked={formData.status === 'draft'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="text-blue-600 focus:ring-blue-500"
                 />
                 <span>Draft</span>

@@ -1,13 +1,6 @@
-import React from 'react';
 import { X } from 'lucide-react';
 
-interface ViewBlogModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  blog: any;
-}
-
-const ViewBlogModal = ({ isOpen, onClose, blog }: ViewBlogModalProps) => {
+const ViewBlogModal = ({ isOpen, onClose, blog }) => {
   if (!isOpen) return null;
 
   return (
@@ -15,7 +8,10 @@ const ViewBlogModal = ({ isOpen, onClose, blog }: ViewBlogModalProps) => {
       <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">View Blog Post</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -41,9 +37,7 @@ const ViewBlogModal = ({ isOpen, onClose, blog }: ViewBlogModalProps) => {
 
           <div>
             <h4 className="font-medium text-gray-900 mb-2">Content</h4>
-            <div className="prose max-w-none">
-              {blog.content}
-            </div>
+            <div className="prose max-w-none">{blog.content}</div>
           </div>
 
           <div>

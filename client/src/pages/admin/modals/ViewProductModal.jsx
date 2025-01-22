@@ -1,13 +1,6 @@
-import React from 'react';
 import { X, DollarSign } from 'lucide-react';
 
-interface ViewProductModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  product: any;
-}
-
-const ViewProductModal = ({ isOpen, onClose, product }: ViewProductModalProps) => {
+const ViewProductModal = ({ isOpen, onClose, product }) => {
   if (!isOpen) return null;
 
   return (
@@ -15,7 +8,10 @@ const ViewProductModal = ({ isOpen, onClose, product }: ViewProductModalProps) =
       <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">View Product</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
