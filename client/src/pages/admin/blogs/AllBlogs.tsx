@@ -3,6 +3,7 @@ import { Search, Filter, Trash2, Edit, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import EditBlogModal from '../modals/EditBlogModal';
 import ViewBlogModal from '../modals/ViewBlogModal';
+import DeleteBlogModal from '../modals/DeleteBlogModal';
 
 // Mock data for demonstration
 const blogs = [
@@ -27,11 +28,13 @@ const AllBlogs = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   const handleDelete = (id) => {
     // Implement delete functionality
     console.log('Delete blog:', id);
+    closeModals();
   };
 
   const handleEdit = (blog) => {
@@ -44,10 +47,16 @@ const AllBlogs = () => {
     setIsViewModalOpen(true);
   };
 
+  const openDeleteModal = (blog) => {
+    setSelectedBlog(blog);
+    setIsDeleteModalOpen(true);
+  };
+
   const closeModals = () => {
     setSelectedBlog(null);
     setIsEditModalOpen(false);
     setIsViewModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -172,7 +181,7 @@ const AllBlogs = () => {
                         <Eye size={18} />
                       </button>
                       <button
-                        onClick={() => handleDelete(blog.id)}
+                        onClick={() => openDeleteModal(blog)}
                         className="p-1 text-gray-600 hover:text-red-600"
                       >
                         <Trash2 size={18} />
@@ -223,6 +232,12 @@ const AllBlogs = () => {
       <ViewBlogModal
         isOpen={isViewModalOpen}
         onClose={closeModals}
+        blog={selectedBlog}
+      />
+      <DeleteBlogModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeModals}
+        onConfirm={() => handleDelete(selectedBlog.id)}
         blog={selectedBlog}
       />
     </div>
