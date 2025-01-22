@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Image, Link as LinkIcon, Code } from 'lucide-react';
 
 const AddProject = () => {
@@ -13,10 +13,10 @@ const AddProject = () => {
     endDate: '',
     github: '',
     live: '',
-    status: 'in-progress',
+    status: 'in-progress'
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form data:', formData);
   };
@@ -24,9 +24,7 @@ const AddProject = () => {
   return (
     <div className="p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
-          Add New Project
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Add New Project</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -39,9 +37,7 @@ const AddProject = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter project title"
                 />
@@ -52,9 +48,7 @@ const AddProject = () => {
                 </label>
                 <select
                   value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select category</option>
@@ -74,9 +68,7 @@ const AddProject = () => {
                 <input
                   type="text"
                   value={formData.client}
-                  onChange={(e) =>
-                    setFormData({ ...formData, client: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, client: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter client name"
                 />
@@ -88,9 +80,7 @@ const AddProject = () => {
                 <input
                   type="date"
                   value={formData.startDate}
-                  onChange={(e) =>
-                    setFormData({ ...formData, startDate: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -101,9 +91,7 @@ const AddProject = () => {
                 <input
                   type="date"
                   value={formData.endDate}
-                  onChange={(e) =>
-                    setFormData({ ...formData, endDate: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -117,9 +105,7 @@ const AddProject = () => {
               <input
                 type="text"
                 value={formData.technologies}
-                onChange={(e) =>
-                  setFormData({ ...formData, technologies: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter technologies (comma separated)"
               />
@@ -132,16 +118,11 @@ const AddProject = () => {
                   GitHub Repository
                 </label>
                 <div className="relative">
-                  <Code
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    size={20}
-                  />
+                  <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="url"
                     value={formData.github}
-                    onChange={(e) =>
-                      setFormData({ ...formData, github: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, github: e.target.value })}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="https://github.com/username/repo"
                   />
@@ -152,16 +133,11 @@ const AddProject = () => {
                   Live Demo URL
                 </label>
                 <div className="relative">
-                  <LinkIcon
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    size={20}
-                  />
+                  <LinkIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="url"
                     value={formData.live}
-                    onChange={(e) =>
-                      setFormData({ ...formData, live: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, live: e.target.value })}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="https://example.com"
                   />
@@ -177,10 +153,7 @@ const AddProject = () => {
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <Image className="mx-auto text-gray-400 mb-4" size={48} />
                 <div className="space-y-2">
-                  <button
-                    type="button"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
+                  <button type="button" className="text-blue-600 hover:text-blue-700 font-medium">
                     Upload an image
                   </button>
                   <p className="text-sm text-gray-500">or drag and drop</p>
@@ -196,9 +169,7 @@ const AddProject = () => {
               </label>
               <textarea
                 value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={6}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Describe the project..."
@@ -217,9 +188,7 @@ const AddProject = () => {
                     name="status"
                     value="in-progress"
                     checked={formData.status === 'in-progress'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>In Progress</span>
@@ -230,9 +199,7 @@ const AddProject = () => {
                     name="status"
                     value="completed"
                     checked={formData.status === 'completed'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Completed</span>
@@ -243,9 +210,7 @@ const AddProject = () => {
                     name="status"
                     value="on-hold"
                     checked={formData.status === 'on-hold'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>On Hold</span>

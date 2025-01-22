@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Image, DollarSign } from 'lucide-react';
 
 const AddProduct = () => {
@@ -11,10 +11,10 @@ const AddProduct = () => {
     features: '',
     requirements: '',
     status: 'active',
-    type: 'digital',
+    type: 'digital'
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form data:', formData);
   };
@@ -22,9 +22,7 @@ const AddProduct = () => {
   return (
     <div className="p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
-          Add New Product
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Add New Product</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -37,9 +35,7 @@ const AddProduct = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter product title"
                 />
@@ -50,9 +46,7 @@ const AddProduct = () => {
                 </label>
                 <select
                   value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select category</option>
@@ -70,16 +64,11 @@ const AddProduct = () => {
                   Price
                 </label>
                 <div className="relative">
-                  <DollarSign
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    size={20}
-                  />
+                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="number"
                     value={formData.price}
-                    onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="0.00"
                     step="0.01"
@@ -93,9 +82,7 @@ const AddProduct = () => {
                 </label>
                 <select
                   value={formData.type}
-                  onChange={(e) =>
-                    setFormData({ ...formData, type: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="digital">Digital Product</option>
@@ -112,10 +99,7 @@ const AddProduct = () => {
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <Image className="mx-auto text-gray-400 mb-4" size={48} />
                 <div className="space-y-2">
-                  <button
-                    type="button"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
+                  <button type="button" className="text-blue-600 hover:text-blue-700 font-medium">
                     Upload an image
                   </button>
                   <p className="text-sm text-gray-500">or drag and drop</p>
@@ -131,9 +115,7 @@ const AddProduct = () => {
               </label>
               <textarea
                 value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={6}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Describe your product..."
@@ -147,9 +129,7 @@ const AddProduct = () => {
               </label>
               <textarea
                 value={formData.features}
-                onChange={(e) =>
-                  setFormData({ ...formData, features: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                 rows={4}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter key features (one per line)"
@@ -163,9 +143,7 @@ const AddProduct = () => {
               </label>
               <textarea
                 value={formData.requirements}
-                onChange={(e) =>
-                  setFormData({ ...formData, requirements: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                 rows={4}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter requirements (one per line)"
@@ -184,9 +162,7 @@ const AddProduct = () => {
                     name="status"
                     value="active"
                     checked={formData.status === 'active'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Active</span>
@@ -197,9 +173,7 @@ const AddProduct = () => {
                     name="status"
                     value="draft"
                     checked={formData.status === 'draft'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Draft</span>
@@ -210,9 +184,7 @@ const AddProduct = () => {
                     name="status"
                     value="archived"
                     checked={formData.status === 'archived'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Archived</span>
@@ -227,9 +199,7 @@ const AddProduct = () => {
               type="submit"
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
-              {formData.status === 'draft'
-                ? 'Save as Draft'
-                : 'Publish Product'}
+              {formData.status === 'draft' ? 'Save as Draft' : 'Publish Product'}
             </button>
             <button
               type="button"

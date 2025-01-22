@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Image, Link, List, Bold, Italic, Code } from 'lucide-react';
 
 const AddBlog = () => {
@@ -9,10 +9,10 @@ const AddBlog = () => {
     image: '',
     tags: '',
     excerpt: '',
-    status: 'draft',
+    status: 'draft'
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Implement blog creation logic
     console.log('Form data:', formData);
@@ -21,9 +21,7 @@ const AddBlog = () => {
   return (
     <div className="p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
-          Create New Blog Post
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Create New Blog Post</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -35,9 +33,7 @@ const AddBlog = () => {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter blog title"
               />
@@ -51,9 +47,7 @@ const AddBlog = () => {
                 </label>
                 <select
                   value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select category</option>
@@ -69,9 +63,7 @@ const AddBlog = () => {
                 <input
                   type="text"
                   value={formData.tags}
-                  onChange={(e) =>
-                    setFormData({ ...formData, tags: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter tags (comma separated)"
                 />
@@ -86,16 +78,11 @@ const AddBlog = () => {
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <Image className="mx-auto text-gray-400 mb-4" size={48} />
                 <div className="space-y-2">
-                  <button
-                    type="button"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
+                  <button type="button" className="text-blue-600 hover:text-blue-700 font-medium">
                     Upload an image
                   </button>
                   <p className="text-sm text-gray-500">or drag and drop</p>
-                  <p className="text-xs text-gray-500">
-                    PNG, JPG, GIF up to 10MB
-                  </p>
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                 </div>
               </div>
             </div>
@@ -128,9 +115,7 @@ const AddBlog = () => {
               </label>
               <textarea
                 value={formData.content}
-                onChange={(e) =>
-                  setFormData({ ...formData, content: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={12}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your blog content here..."
@@ -144,9 +129,7 @@ const AddBlog = () => {
               </label>
               <textarea
                 value={formData.excerpt}
-                onChange={(e) =>
-                  setFormData({ ...formData, excerpt: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write a short excerpt..."
@@ -165,9 +148,7 @@ const AddBlog = () => {
                     name="status"
                     value="draft"
                     checked={formData.status === 'draft'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Draft</span>
@@ -178,9 +159,7 @@ const AddBlog = () => {
                     name="status"
                     value="published"
                     checked={formData.status === 'published'}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Published</span>

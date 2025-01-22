@@ -43,6 +43,7 @@ import AnalyticsPage from './pages/admin/analytics/AnalyticsPage';
 import CommentsPage from './pages/admin/comments/CommentsPage';
 import UsersPage from './pages/admin/users/UsersPage';
 import NotificationsPage from './pages/admin/notifications/NotificationsPage';
+import SettingsPage from './pages/admin/settings/SettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -172,6 +173,11 @@ const router = createBrowserRouter([
             path: 'notifications',
             element: <NotificationsPage />,
           },
+          {
+            path: 'settings',
+            element: <SettingsPage />,
+          },
+
           {
             path: 'users',
             element: <UsersPage />,
