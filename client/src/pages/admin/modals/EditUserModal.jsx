@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, User, Mail, Shield } from 'lucide-react';
 
 const EditUserModal = ({ isOpen, onClose, onSubmit, user }) => {
   const [formData, setFormData] = useState({
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    status: user.status,
+    name: '',
+    email: '',
+    role: 'User',
+    status: 'Active',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+      });
+    }
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

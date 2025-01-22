@@ -9,6 +9,10 @@ import {
   UserPlus,
 } from 'lucide-react';
 import CreateUserModal from './CreateUserModal';
+import EditUserModal from '../modals/EditUserModal';
+import ViewUserModal from '../modals/ViewUserModal';
+import DeleteUserModal from '../modals/DeleteUserModal';
+import ChangeUserStatusModal from '../modals/ChangeUserStatusModal';
 
 const users = [
   {
@@ -33,10 +37,33 @@ const users = [
 
 const UsersPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isChangeStatusModalOpen, setIsChangeStatusModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleCreateUser = (userData) => {
     console.log('Creating new user:', userData);
     // Implement user creation logic here
+  };
+
+  const handleEditUser = (userData) => {
+    console.log('Updating user:', userData);
+    // Implement user update logic here
+    setIsEditModalOpen(false);
+  };
+
+  const handleDeleteUser = (id) => {
+    console.log('Deleting user:', id);
+    // Implement user deletion logic here
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleChangeUserStatus = (status) => {
+    console.log('Changing user status to:', status);
+    // Implement status change logic here
+    setIsChangeStatusModalOpen(false);
   };
 
   return (
@@ -146,14 +173,41 @@ const UsersPage = () => {
                   <td className="py-4 px-6 text-gray-600">{user.lastLogin}</td>
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-2">
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Edit size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsViewModalOpen(true);
+                        }}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Mail size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-red-600">
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsDeleteModalOpen(true);
+                        }}
+                        className="p-1 text-gray-600 hover:text-red-600"
+                      >
                         <Trash2 size={18} />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setIsChangeStatusModalOpen(true);
+                        }}
+                        className="p-1 text-gray-600 hover:text-yellow-600"
+                      >
+                        Change Status
                       </button>
                     </div>
                   </td>
@@ -162,37 +216,36 @@ const UsersPage = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-          <div className="text-sm text-gray-600">
-            Showing 1 to 10 of 25 users
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Previous
-            </button>
-            <button className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-              1
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              2
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              3
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Next
-            </button>
-          </div>
-        </div>
       </div>
 
-      {/* Create User Modal */}
+      {/* Modal Integrations */}
       <CreateUserModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreateUser}
+      />
+      <EditUserModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSubmit={handleEditUser}
+        user={selectedUser}
+      />
+      <ViewUserModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        user={selectedUser}
+      />
+      <DeleteUserModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => handleDeleteUser(selectedUser?.id)}
+        user={selectedUser}
+      />
+      <ChangeUserStatusModal
+        isOpen={isChangeStatusModalOpen}
+        onClose={() => setIsChangeStatusModalOpen(false)}
+        onConfirm={handleChangeUserStatus}
+        user={selectedUser}
       />
     </div>
   );
