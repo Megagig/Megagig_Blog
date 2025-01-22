@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Link as LinkIcon, Code } from 'lucide-react';
 
 const EditProjectModal = ({ isOpen, onClose, onSubmit, project }) => {
   const [formData, setFormData] = useState({
-    title: project.title,
-    category: project.category,
-    description: project.description,
-    technologies: project.technologies.join(', '),
-    github: project.github,
-    live: project.live,
-    status: project.status,
+    title: '',
+    category: '',
+    description: '',
+    technologies: '',
+    github: '',
+    live: '',
+    status: 'draft',
   });
+
+  useEffect(() => {
+    if (project) {
+      setFormData({
+        title: project.title,
+        category: project.category,
+        description: project.description,
+        technologies: project.technologies.join(', '),
+        github: project.github,
+        live: project.live,
+        status: project.status,
+      });
+    }
+  }, [project]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Search, Filter, Trash2, Edit, Eye, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import EditProjectModal from '../modals/EditProjectModal'; // Import EditProjectModal
+import ViewProjectModal from '../modals/ViewProjectModal'; // Import ViewProjectModal
+import DeleteProjectModal from '../modals/DeleteProjectModal'; // Import DeleteProjectModal
 
 // Mock data for demonstration
 const projects = [
@@ -15,6 +18,7 @@ const projects = [
     client: 'TechCorp Inc.',
     github: 'https://github.com/example/project',
     live: 'https://example.com',
+    description: 'A full-featured e-commerce platform.',
   },
   // Add more mock projects...
 ];
@@ -23,13 +27,37 @@ const AllProjects = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const openEditModal = (project) => {
+    setSelectedProject(project);
+    setIsEditModalOpen(true);
+  };
+
+  const openViewModal = (project) => {
+    setSelectedProject(project);
+    setIsViewModalOpen(true);
+  };
+
+  const openDeleteModal = (project) => {
+    setSelectedProject(project);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeModals = () => {
+    setSelectedProject(null);
+    setIsEditModalOpen(false);
+    setIsViewModalOpen(false);
+    setIsDeleteModalOpen(false);
+  };
 
   const handleDelete = (id) => {
     console.log('Delete project:', id);
-  };
-
-  const handleEdit = (id) => {
-    console.log('Edit project:', id);
+    // Logic to delete the project from the list
+    closeModals();
   };
 
   return (
@@ -177,16 +205,19 @@ const AllProjects = () => {
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handleEdit(project.id)}
+                        onClick={() => openEditModal(project)}
                         className="p-1 text-gray-600 hover:text-blue-600"
                       >
                         <Edit size={18} />
                       </button>
-                      <button className="p-1 text-gray-600 hover:text-blue-600">
+                      <button
+                        onClick={() => openViewModal(project)}
+                        className="p-1 text-gray-600 hover:text-blue-600"
+                      >
                         <Eye size={18} />
                       </button>
                       <button
-                        onClick={() => handleDelete(project.id)}
+                        onClick={() => openDeleteModal(project)}
                         className="p-1 text-gray-600 hover:text-red-600"
                       >
                         <Trash2 size={18} />
@@ -199,29 +230,28 @@ const AllProjects = () => {
           </table>
         </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-          <div className="text-sm text-gray-600">
-            Showing 1 to 10 of 30 entries
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Previous
-            </button>
-            <button className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-              1
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              2
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              3
-            </button>
-            <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
-              Next
-            </button>
-          </div>
-        </div>
+        {/* Modals */}
+        <EditProjectModal
+          isOpen={isEditModalOpen}
+          onClose={closeModals}
+          onSubmit={(updatedProject) => {
+            console.log('Updated project:', updatedProject);
+            // Logic to update the project
+            closeModals();
+          }}
+          project={selectedProject}
+        />
+        <ViewProjectModal
+          isOpen={isViewModalOpen}
+          onClose={closeModals}
+          project={selectedProject}
+        />
+        <DeleteProjectModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeModals}
+          onConfirm={() => handleDelete(selectedProject.id)}
+          project={selectedProject}
+        />
       </div>
     </div>
   );
