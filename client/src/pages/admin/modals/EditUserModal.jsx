@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, User, Mail, Shield } from 'lucide-react';
 
-interface EditUserModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-  user: any;
-}
-
-const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) => {
+const EditUserModal = ({ isOpen, onClose, onSubmit, user }) => {
   const [formData, setFormData] = useState({
     name: user.name,
     email: user.email,
     role: user.role,
-    status: user.status
+    status: user.status,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ ...user, ...formData });
     onClose();
@@ -29,7 +22,10 @@ const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) 
       <div className="bg-white rounded-xl p-8 max-w-md w-full">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Edit User</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -40,11 +36,16 @@ const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) 
               Name
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <User
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -55,11 +56,16 @@ const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) 
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Mail
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -70,10 +76,15 @@ const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) 
               Role
             </label>
             <div className="relative">
-              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Shield
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <select
                 value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="User">User</option>
@@ -89,7 +100,9 @@ const EditUserModal = ({ isOpen, onClose, onSubmit, user }: EditUserModalProps) 
             </label>
             <select
               value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Active">Active</option>

@@ -1,13 +1,6 @@
-import React from 'react';
 import { X, Mail, Shield, Clock } from 'lucide-react';
 
-interface ViewUserModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  user: any;
-}
-
-const ViewUserModal = ({ isOpen, onClose, user }: ViewUserModalProps) => {
+const ViewUserModal = ({ isOpen, onClose, user }) => {
   if (!isOpen) return null;
 
   return (
@@ -15,7 +8,10 @@ const ViewUserModal = ({ isOpen, onClose, user }: ViewUserModalProps) => {
       <div className="bg-white rounded-xl p-8 max-w-md w-full">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">View User</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={24} />
           </button>
         </div>
@@ -47,11 +43,15 @@ const ViewUserModal = ({ isOpen, onClose, user }: ViewUserModalProps) => {
             <div>
               <span className="text-sm text-gray-500">Status</span>
               <p className="mt-1">
-                <span className={`px-3 py-1 rounded-full text-sm ${
-                  user.status === 'Active' ? 'bg-green-100 text-green-600' :
-                  user.status === 'Inactive' ? 'bg-gray-100 text-gray-600' :
-                  'bg-red-100 text-red-600'
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    user.status === 'Active'
+                      ? 'bg-green-100 text-green-600'
+                      : user.status === 'Inactive'
+                      ? 'bg-gray-100 text-gray-600'
+                      : 'bg-red-100 text-red-600'
+                  }`}
+                >
                   {user.status}
                 </span>
               </p>
