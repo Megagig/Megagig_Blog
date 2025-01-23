@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoute from './routes/auth.Route.js';
+import blogRoute from './routes/admin/blog.Route.js';
 import userRoute from './routes/user.Route.js';
 import postRoute from './routes/post.Route.js';
 import commentRoute from './routes/comment.Route.js';
@@ -27,6 +28,9 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/posts', postRoute);
 app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/projects', projectRoute);
+
+// ADMIN ROUTES
+app.use('/api/v1/admin/blogs', blogRoute);
 
 // HANDLE 404 ERROR
 app.use((req, res, next) => {

@@ -39,14 +39,27 @@ const authenticateUser = catchAsync(async (req, res, next) => {
   next();
 });
 
-const authorization = (...userTypes) => {
+const authorization = (...roles) => {
   const checkPermission = (req, res, next) => {
-    if (!userTypes.includes(req.user.userType)) {
+    const { user } = req;
+    if (!user) {
+      return next(new AppError('User not found', 404));
+    }
+
+    const hasPermission = roles.some((role) => {
+      if (role === 'admin' && user.isAdmin) return true;
+      if (role === 'moderator' && user.isModerator) return true;
+      if (role === 'user' && user.isUser) return true;
+      return false;
+    });
+
+    if (!hasPermission) {
       return next(
         new AppError("You don't have permission to perform this action", 403)
       );
     }
-    return next();
+
+    next();
   };
 
   return checkPermission;
