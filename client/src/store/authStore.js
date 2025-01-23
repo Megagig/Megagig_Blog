@@ -52,12 +52,16 @@ export const useAuthStore = create((set) => ({
   login: async (identifier, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/login`, {
-        // Send either email or username as identifier
-        email: identifier.includes('@') ? identifier : undefined,
-        username: identifier.includes('@') ? undefined : identifier,
-        password,
-      });
+      const response = await axios.post(
+        `${API_URL}/login`,
+        {
+          // Send either email or username as identifier
+          email: identifier.includes('@') ? identifier : undefined,
+          username: identifier.includes('@') ? undefined : identifier,
+          password,
+        },
+        { withCredentials: true } // Ensure credentials are included);
+      );
       const data = response.data;
       set({ user: data.user, isLoading: false, isAuthenticated: true });
     } catch (error) {

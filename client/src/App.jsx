@@ -45,6 +45,10 @@ import UsersPage from './pages/admin/users/UsersPage';
 import NotificationsPage from './pages/admin/notifications/NotificationsPage';
 import SettingsPage from './pages/admin/settings/SettingsPage';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
@@ -206,7 +210,10 @@ const App = () => {
 
   return (
     <div>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+
       <Toaster />
     </div>
   );
