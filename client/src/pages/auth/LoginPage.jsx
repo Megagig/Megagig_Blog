@@ -120,9 +120,7 @@ const LoginPage = () => {
               Forgot password?
             </Link>
           </div>
-          {error && (
-            <p className="text-red-500 text-sm align-middle">{error}</p>
-          )}
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
