@@ -1,9 +1,18 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
 import Image from './Image';
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
   return (
     <div className="w-full h-16 md:h-20 flex items-center justify-between px-4 md:px-8 lg:px-12">
       {/* LOGO */}
@@ -46,11 +55,27 @@ const Navbar = () => {
           <Link to="/shop">Shop</Link>
           <Link to="/contact">Contact</Link>
 
-          <Link to="/login">
-            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-              Login 🚀
-            </button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to="/profile">
+                <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+                  {user?.username}
+                </button>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="py-2 px-4 rounded-3xl bg-red-600 text-white"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login">
+              <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+                Login 🚀
+              </button>
+            </Link>
+          )}
         </div>
       </div>
       {/* DESKTOP MENU */}
@@ -75,11 +100,27 @@ const Navbar = () => {
         <Link to="/shop">Shop</Link>
         <Link to="/contact">Contact</Link>
 
-        <Link to="/login">
-          <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-            Login 🚀
-          </button>
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <Link to="/profile">
+              <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+                {user?.username}
+              </button>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="py-2 px-4 rounded-3xl bg-red-600 text-white"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login">
+            <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+              Login 🚀
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
