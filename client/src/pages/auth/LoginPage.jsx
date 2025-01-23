@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,15 +15,19 @@ const LoginPage = () => {
   const { login, isLoading, error } = useAuthStore();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(formData.emailOrUsername, formData.password);
+    try {
+      await login(formData.emailOrUsername, formData.password);
 
-    const mockUserRole = 'admin'; // This would come from your auth response
+      const mockUserRole = 'admin'; // This would come from your auth response
 
-    // Redirect based on role
-    if (mockUserRole === 'admin') {
-      navigate('/admin/dashboard');
-    } else {
-      navigate('/user/home');
+      // Redirect based on role
+      if (mockUserRole === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/user/home');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Failed to log in ');
     }
   };
 
@@ -61,7 +66,6 @@ const LoginPage = () => {
               />
             </div>
           </div>
-
           <div>
             <label
               htmlFor="password"
@@ -88,7 +92,6 @@ const LoginPage = () => {
               />
             </div>
           </div>
-
           <div className="flex items-center justify-between">
             {error && <p className="text-red-500 text-sm">{error.message}</p>}
             <div className="flex items-center">
@@ -117,7 +120,9 @@ const LoginPage = () => {
               Forgot password?
             </Link>
           </div>
-
+          {error && (
+            <p className="text-red-500 text-sm align-middle">{error}</p>
+          )}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
