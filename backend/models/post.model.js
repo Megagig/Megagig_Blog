@@ -12,6 +12,20 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
 
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        'Development',
+        'Tutorial',
+        'Databases',
+        'Marketing',
+        'Web Design',
+        'WordPress',
+      ],
+      default: 'Development',
+    },
+
     slug: {
       type: String,
       required: true,

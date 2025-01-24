@@ -1,20 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoute from './routes/auth.Route.js';
-import blogRoute from './routes/admin/blog.Route.js';
 import userRoute from './routes/user.Route.js';
-import postRoute from './routes/post.Route.js';
-import commentRoute from './routes/comment.Route.js';
+import blogRoute from './routes/blog.Route.js';
 import projectRoute from './routes/project.Route.js';
 import connectDB from './lib/connectDB.js';
-import catchAsync from './lib/catchAsync.js';
 import AppError from './lib/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: ' http://localhost:5173',
+    credentials: true,
+  })
+);
 
 dotenv.config();
 
@@ -25,12 +27,8 @@ const PORT = process.env.PORT || 5000;
 // ALL ROUTES GO HERE
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/users', userRoute);
-app.use('/api/v1/posts', postRoute);
-app.use('/api/v1/comments', commentRoute);
+app.use('/api/v1/blogs', blogRoute);
 app.use('/api/v1/projects', projectRoute);
-
-// ADMIN ROUTES
-app.use('/api/v1/admin/blogs', blogRoute);
 
 // HANDLE 404 ERROR
 app.use((req, res, next) => {

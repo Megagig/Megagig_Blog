@@ -259,11 +259,9 @@ export const checkAuth = catchAsync(async (req, res) => {
   if (!user) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
-  res
-    .status(200)
-    .json({
-      success: true,
-      user: { ...user._doc, password: undefined },
-      message: 'User is authenticated',
-    });
+  res.status(200).json({
+    success: true,
+    user: { ...user._doc, password: undefined },
+    message: 'User is authenticated',
+  });
 });
