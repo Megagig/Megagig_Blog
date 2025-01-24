@@ -1,41 +1,24 @@
-import Post from '../models/post.model.js';
+import Blog from '../models/blog.model.js';
 import User from '../models/user.Model.js';
 import catchAsync from '../lib/catchAsync.js';
 
-// CREATE A NEW BLOG POST
+// Create post (protected route)
 export const createBlogPost = catchAsync(async (req, res, next) => {
-  const userId = req.user._id;
+  const { title, category, tags, featuredImage, content, excerpt, status } =
+    req.body;
 
-  if (!userId) {
-    return res.status(401).json('Not authenticated!');
-  }
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return res.status(404).json('User not found!');
-  }
-
-  let slug = req.body.title.replace(/ /g, '-').toLowerCase();
-
-  let existingPost = await Post.findOne({ slug });
-
-  let counter = 2;
-
-  while (existingPost) {
-    slug = `${slug}-${counter}`;
-    existingPost = await Post.findOne({ slug });
-    counter++;
-  }
-
-  const newPost = new Post({ user: user._id, slug, ...req.body });
-
-  const post = await newPost.save();
-  res.status(201).json({ message: 'Post created successfully', post });
+  // console.log('UserId: ', req.userId);
+  const newPost = new Blog({
+    ...req.body,
+    author: req.userId,
+  });
+  await newPost.save();
+  res.status(201).json({ message: 'Post created successfully', post: newPost });
 });
 
 // GET ALL BLOG POSTS
 export const getAllBlogPosts = catchAsync(async (req, res, next) => {
-  const posts = await Post.find().populate('user', 'username email');
+  const posts = await Blog.find().populate('user', 'username email');
   res.status(200).json(posts);
 });
 
