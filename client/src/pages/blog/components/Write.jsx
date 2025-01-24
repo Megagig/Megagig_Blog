@@ -1,5 +1,10 @@
 import 'react-quill-new/dist/quill.snow.css';
 import ReactQuill, { Quill } from 'react-quill-new';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { useAuthStore } from '../../../store/authStore';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Register the code block format
 const Block = Quill.import('blots/block');
@@ -38,21 +43,36 @@ CodeBlock.tagName = 'pre';
 Quill.register(CodeBlock);
 
 const Write = () => {
-  // const { isLoaded, isSignedIn } = useUser();
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuthStore();
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+  });
 
-  // if (!isLoaded) {
-  //   return (
-  //     <div className="flex items-center justify-center h-full">Loading...</div>
-  //   );
-  // }
+  const [value, setValue] = useState('');
 
-  // if (!isSignedIn) {
-  //   return (
-  //     <div className="flex items-center justify-center h-full">
-  //       Sign in to write a blog post
-  //     </div>
-  //   );
-  // }
+  const mutation = useMutation({
+    mutationFn: (newPost) => {
+      return axios.post(`${import.meta.env.VITE_API_URL}/posts`, newPost);
+    },
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Add logic to handle form submission, e.g., sending data to the server
+    const formData = new FormData(e.target);
+    const data = {
+      title: formData.get('title'),
+      category: formData.get('category'),
+      desc: formData.get('desc'),
+      content: value,
+    };
+    console.log(data);
+
+    mutation.mutate(data);
+  };
 
   return (
     <div className="min-h-screen flex flex-col p-6 md:p-12 lg:p-24 bg-[#F9FAFB]">
@@ -61,7 +81,7 @@ const Write = () => {
       </h1>
       <form
         className="bg-white shadow-md rounded-lg p-6 md:p-12 lg:p-24 flex flex-col gap-6"
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
       >
         <button className="w-full p-2 shadow-md rounded-xl text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 transition">
           Add A Cover Image
@@ -110,6 +130,8 @@ const Write = () => {
         <ReactQuill
           theme="snow"
           className="h-64 md:h-96 lg:h-128"
+          value={value}
+          onChange={setValue}
           modules={{
             toolbar: [
               [{ header: [1, 2, false] }, { font: [] }],
