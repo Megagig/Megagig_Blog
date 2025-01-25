@@ -15,10 +15,49 @@ export const createBlogPost = catchAsync(async (req, res, next) => {
   res.status(201).json({ message: 'Post created successfully', post: newPost });
 });
 
-// GET ALL BLOG POSTS
-export const getAllBlogPosts = catchAsync(async (req, res, next) => {
-  const posts = await Blog.find().populate('user', 'username email');
-  res.status(200).json(posts);
+// Get all posts (public route)
+export const getAllBlogPosts = catchAsync(async (req, res) => {
+  const { search, category, location, status, sortBy, limit, page } = req.query;
+
+  let query = {};
+
+  // Apply search filtering
+  if (search) {
+    query.$or = [
+      { title: { $regex: search, $options: 'i' } },
+      { content: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  // Apply category filtering
+  if (category) query.category = category;
+
+  // Apply location filtering
+  if (location) query.location = location;
+
+  // Apply status filtering (e.g., draft or published)
+  if (status) query.status = status;
+
+  // Set default pagination values
+  const resultsPerPage = parseInt(limit) || 10; // Default to 10 results per page
+  const currentPage = parseInt(page) || 1; // Default to page 1
+
+  // Fetch posts with dynamic query and pagination
+  const posts = await Blog.find(query)
+    .populate('author', 'username email')
+    .sort({ [sortBy || 'createdAt']: -1 }) // Default sort by `createdAt` in descending order
+    .skip((currentPage - 1) * resultsPerPage)
+    .limit(resultsPerPage);
+
+  // Total count for pagination
+  const totalPosts = await Blog.countDocuments(query);
+
+  res.status(200).json({
+    totalPosts,
+    currentPage,
+    totalPages: Math.ceil(totalPosts / resultsPerPage),
+    posts,
+  });
 });
 
 export const updateBlogPost = catchAsync(async (req, res, next) => {
