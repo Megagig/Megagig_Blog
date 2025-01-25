@@ -5,6 +5,7 @@ import userRoute from './routes/user.Route.js';
 import blogRoute from './routes/blog.Route.js';
 import projectRoute from './routes/project.Route.js';
 import productRoute from './routes/product.Route.js';
+import commentRoute from './routes/comment.Route.js';
 import connectDB from './lib/connectDB.js';
 import AppError from './lib/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
@@ -29,6 +30,7 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/blogs', blogRoute);
+app.use('/api/v1/comments', commentRoute);
 app.use('/api/v1/projects', projectRoute);
 app.use('/api/v1/products', productRoute);
 

@@ -3,7 +3,7 @@ import {
   createBlogPost,
   deleteBlogPost,
   getAllBlogPosts,
-  getBlogPostBySlug,
+  getBlogPostById,
   updateBlogPost,
 } from '../controllers/blogController.js';
 import { authenticateUser } from '../middleware/authenticateUser.js';
@@ -13,8 +13,8 @@ const router = express.Router();
 router.post('/', authenticateUser, createBlogPost);
 router.get('/', getAllBlogPosts);
 router.put('/:slug', updateBlogPost);
-router.get('/:slug', getBlogPostBySlug);
+router.get('/:id', getBlogPostById);
 
-router.delete('/:slug', deleteBlogPost);
+router.delete('/:id', deleteBlogPost);
 
 export default router;

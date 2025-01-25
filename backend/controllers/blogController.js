@@ -1,6 +1,8 @@
 import Blog from '../models/blog.model.js';
 import User from '../models/user.Model.js';
+import Comment from '../models/comment.model.js';
 import catchAsync from '../lib/catchAsync.js';
+import AppError from '../lib/appError.js';
 
 // Create post (protected route)
 export const createBlogPost = catchAsync(async (req, res, next) => {
@@ -60,6 +62,25 @@ export const getAllBlogPosts = catchAsync(async (req, res) => {
   });
 });
 
+// retrieving the details of a single blog post by its unique ID, along with associated comments.
+export const getBlogPostById = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  // console.log(postId);
+
+  const post = await Blog.findById(postId).populate('author', 'username email');
+
+  if (!post) {
+    return next(new AppError('Post not found', 404));
+  }
+
+  const comments = await Comment.find({ postId: postId }).populate(
+    'user',
+    'username email'
+  );
+
+  res.status(200).json({ post, comments });
+});
+
 export const updateBlogPost = catchAsync(async (req, res, next) => {
   const updatedPost = await Post.findOneAndUpdate(
     { slug: req.params.slug },
@@ -80,17 +101,6 @@ export const deleteBlogPost = catchAsync(async (req, res, next) => {
     return next(new AppError('Post not found', 404));
   }
   res.status(200).json({ message: 'Post deleted successfully' });
-});
-
-export const getBlogPostById = catchAsync(async (req, res, next) => {});
-
-// GET A BLOG POST BY SLUG
-export const getBlogPostBySlug = catchAsync(async (req, res, next) => {
-  const post = await Post.findOne({ slug: req.params.slug });
-  if (!post) {
-    return next(new AppError('Post not found', 404));
-  }
-  res.status(200).json(post);
 });
 
 export const getBlogsByCategory = async (req, res) => {};

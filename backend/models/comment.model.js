@@ -1,20 +1,20 @@
 import mongoose from 'mongoose';
-import { Schema } from 'mongoose';
 
 const commentSchema = new mongoose.Schema(
   {
-    desc: {
+    comment: {
       type: String,
       required: true,
+      trim: true,
     },
     user: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    post: {
-      type: Schema.Types.ObjectId,
-      ref: 'Post',
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog',
       required: true,
     },
   },
