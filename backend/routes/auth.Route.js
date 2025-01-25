@@ -11,7 +11,7 @@ import {
 import { authenticateUser } from '../middleware/authenticateUser.js';
 
 const router = express.Router();
-
+router.get('/check-auth', authenticateUser, checkAuth);
 router.post('/signup', signup);
 router.post('/verify-email', verifyEmail);
 
@@ -21,7 +21,5 @@ router.post('/logout', logout);
 
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-passwrod/:token', resetPassword);
-
-router.get('/check-auth', authenticateUser, checkAuth);
 
 export default router;

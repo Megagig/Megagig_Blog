@@ -6,10 +6,11 @@ import {
   getBlogPostBySlug,
   updateBlogPost,
 } from '../controllers/blogController.js';
+import { authenticateUser } from '../middleware/authenticateUser.js';
 
 const router = express.Router();
 
-router.post('/', createBlogPost);
+router.post('/', authenticateUser, createBlogPost);
 router.get('/', getAllBlogPosts);
 router.put('/:slug', updateBlogPost);
 router.get('/:slug', getBlogPostBySlug);

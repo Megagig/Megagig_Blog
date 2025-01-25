@@ -7,7 +7,6 @@ export const createBlogPost = catchAsync(async (req, res, next) => {
   const { title, category, tags, featuredImage, content, excerpt, status } =
     req.body;
 
-  // console.log('UserId: ', req.userId);
   const newPost = new Blog({
     ...req.body,
     author: req.userId,

@@ -3,41 +3,27 @@ import User from '../models/user.Model.js';
 import catchAsync from '../lib/catchAsync.js';
 import AppError from '../lib/appError.js';
 
-const authenticateUser = catchAsync(async (req, res, next) => {
-  // 1. Get the token from cookies or headers
-  let token = req.cookies.authToken || '';
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-
-  // 2. check if the token exists
-  if (!token) {
-    return next(new AppError('Please login to get access', 401));
-  }
-
-  // 3. Token verification
-  let tokenDetail;
+const authenticateUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token)
+    return res
+      .status(401)
+      .json({ success: false, message: 'Unauthorized - no token provided' });
   try {
-    tokenDetail = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decoded)
+      return res
+        .status(401)
+        .json({ success: false, message: 'Unauthorized - invalid token' });
+
+    req.userId = decoded.userId;
+    next();
   } catch (error) {
-    console.log(error);
-
-    return next(new AppError('Invalid token, please log in again', 401));
+    console.log('Error in verifyToken ', error);
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
-
-  // 4. Get the user detail from the database
-  const user = await User.findById(tokenDetail.id);
-  if (!user) {
-    return next(new AppError('User no longer exists', 400));
-  }
-
-  // 5. Attach user to the request object
-  req.user = user;
-  next();
-});
+};
 
 const authorization = (...roles) => {
   const checkPermission = (req, res, next) => {
