@@ -82,17 +82,21 @@ export const getBlogPostById = catchAsync(async (req, res, next) => {
 });
 
 export const updateBlogPost = catchAsync(async (req, res, next) => {
-  const updatedPost = await Post.findOneAndUpdate(
-    { slug: req.params.slug },
-    req.body,
-    { new: true, runValidators: true }
+  const postId = req.params.id;
+  // const { title, content, category } = req.body;
+  const updatedPost = await Blog.findByIdAndUpdate(
+    postId,
+    { ...req.body },
+    { new: true }
   );
+
   if (!updatedPost) {
-    return next(new AppError('Post not found', 404));
+    return res.status(404).send({ message: 'Post not found' });
   }
+
   res
     .status(200)
-    .json({ message: 'Post updated successfully', post: updatedPost });
+    .send({ message: 'Post updated successfully', post: updatedPost });
 });
 
 export const deleteBlogPost = catchAsync(async (req, res, next) => {
@@ -102,7 +106,24 @@ export const deleteBlogPost = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({ message: 'Post deleted successfully' });
 });
+// Get all blogs in the Admin Dashboard (private route)
+export const getAllBlogs = catchAsync(async (req, res) => {
+  const { page = 1, limit = 10, search = '' } = req.query; // Pagination and search
+  const query = search ? { title: { $regex: search, $options: 'i' } } : {}; // Search query
 
+  const totalBlogs = await Blog.countDocuments(query); // Count total blogs
+  const blogs = await Blog.find(query)
+    .skip((page - 1) * limit) // Pagination
+    .limit(Number(limit))
+    .sort({ createdAt: -1 }); // Sort by date (latest first)
+
+  res.status(200).json({
+    total: totalBlogs,
+    page: Number(page),
+    limit: Number(limit),
+    blogs,
+  });
+});
 export const getBlogsByCategory = async (req, res) => {};
 
 export const getBlogsByAuthor = async (req, res) => {};

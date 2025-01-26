@@ -14,6 +14,6 @@ router.post('/', createComment);
 router.get('/', getAllComments);
 router.get('/total-comments', getTotalComments);
 router.delete('/:commentId', deleteComment);
-router.put('/:commentId', updateComment);
+router.patch('/:commentId', updateComment);
 
 export default router;
