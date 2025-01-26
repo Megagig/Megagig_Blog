@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   authenticateUser,
-  authorization,
+  isAuthorized,
 } from '../middleware/authenticateUser.js';
 import {
   getUsers,
@@ -14,10 +14,10 @@ const router = express.Router();
 router.patch(
   '/update-role',
   authenticateUser,
-  authorization('admin'),
+  isAuthorized('admin'),
   updateUserRole
 );
-router.get('/', authenticateUser, authorization('admin'), getUsers);
-router.get('/:id', authenticateUser, authorization('admin'), getUser);
+router.get('/', authenticateUser, isAuthorized('admin'), getUsers);
+router.get('/:id', authenticateUser, isAuthorized('admin'), getUser);
 
 export default router;

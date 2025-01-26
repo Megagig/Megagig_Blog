@@ -9,14 +9,14 @@ import {
 } from '../controllers/blogController.js';
 import {
   authenticateUser,
-  authorization,
+  isAuthorized,
 } from '../middleware/authenticateUser.js';
 
 const router = express.Router();
 
 router.post('/', authenticateUser, createBlogPost);
 router.get('/', getAllBlogPosts);
-router.patch('/:id', authenticateUser, authorization('admin'), updateBlogPost);
+router.patch('/:id', authenticateUser, isAuthorized('admin'), updateBlogPost);
 router.get('/:id', getBlogPostById);
 router.get('/admin', getAllBlogs); // Admin Dashboard
 

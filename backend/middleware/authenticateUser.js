@@ -25,30 +25,33 @@ const authenticateUser = (req, res, next) => {
   }
 };
 
-const authorization = (...roles) => {
-  const checkPermission = (req, res, next) => {
-    const { userId } = req;
-    if (!userId) {
-      return next(new AppError('User not found', 404));
+const isAuthorized = (...roles) => {
+  return catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
     }
 
     const hasPermission = roles.some((role) => {
-      if (role === 'admin' && userId.isAdmin) return true;
-      if (role === 'moderator' && userId.isModerator) return true;
-      if (role === 'user' && userId.isUser) return true;
+      if (role === 'admin' && user.isAdmin) return true;
+      if (role === 'moderator' && user.isModerator) return true;
+      if (role === 'user' && user.isUser) return true;
       return false;
     });
 
     if (!hasPermission) {
-      return next(
-        new AppError("You don't have permission to perform this action", 403)
-      );
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to perform this action.',
+      });
     }
 
     next();
-  };
-
-  return checkPermission;
+  });
 };
 
-export { authenticateUser, authorization };
+export { authenticateUser, isAuthorized };
