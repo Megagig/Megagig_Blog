@@ -1,3 +1,4 @@
+import AppError from '../lib/appError.js';
 import catchAsync from '../lib/catchAsync.js';
 import Comment from '../models/comment.model.js';
 
@@ -36,4 +37,17 @@ export const deleteComment = catchAsync(async (req, res, next) => {
   }
   await Comment.findByIdAndDelete(commentId);
   res.status(200).send({ message: 'Comment deleted successfully' });
+});
+
+// Update comment (public route) - only the user who posted the comment can update it
+export const updateComment = catchAsync(async (req, res, next) => {
+  const { commentId } = req.params;
+  const { comment } = req.body;
+  const commentToUpdate = await Comment.findById(commentId);
+  if (!commentToUpdate) {
+    return next(new AppError('Comment not found', 404));
+  }
+  commentToUpdate.comment = comment;
+  await commentToUpdate.save();
+  res.status(200).send({ message: 'Comment updated successfully' });
 });
