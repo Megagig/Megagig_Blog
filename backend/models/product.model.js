@@ -14,10 +14,13 @@ const productSchema = new mongoose.Schema(
         trim: true,
       },
     ],
-    requirements: {
-      type: String,
-      trim: true,
-    },
+
+    requirements: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
 
     description: {
       type: String,
@@ -26,7 +29,15 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ['Course', 'Template', 'Components', 'Service'],
+      enum: [
+        'Course',
+        'Template',
+        'Web Design',
+        'Services',
+        'Business Software',
+        'Mobile App',
+        'Other',
+      ],
     },
     price: {
       type: Number,
@@ -35,13 +46,15 @@ const productSchema = new mongoose.Schema(
     },
     images: [
       {
-        url: String,
-        filename: String,
+        url: {
+          type: String,
+          required: true,
+        },
       },
     ],
     type: {
       type: String,
-      enum: ['digital', 'service'],
+      enum: ['digital', 'service', 'software'],
       default: 'digital',
     },
     status: {
