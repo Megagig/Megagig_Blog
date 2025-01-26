@@ -1,6 +1,6 @@
-import Project from '../models/project.model.js';
 import catchAsync from '../lib/catchAsync.js';
 import AppError from '../lib/appError.js';
+import Project from '../models/ project.model.js';
 
 export const createProject = catchAsync(async (req, res, next) => {
   const {

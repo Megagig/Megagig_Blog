@@ -38,7 +38,14 @@ const projectSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['draft', 'in-progress', 'completed', 'on-hold'],
+      enum: [
+        'draft',
+        'in-progress',
+        'completed',
+        'on-hold',
+        'cancelled',
+        'published',
+      ],
       default: 'draft',
     },
     author: {
