@@ -7,13 +7,16 @@ import {
   getBlogPostById,
   updateBlogPost,
 } from '../controllers/blogController.js';
-import { authenticateUser } from '../middleware/authenticateUser.js';
+import {
+  authenticateUser,
+  authorization,
+} from '../middleware/authenticateUser.js';
 
 const router = express.Router();
 
 router.post('/', authenticateUser, createBlogPost);
 router.get('/', getAllBlogPosts);
-router.patch('/:id', updateBlogPost);
+router.patch('/:id', authenticateUser, authorization('admin'), updateBlogPost);
 router.get('/:id', getBlogPostById);
 router.get('/admin', getAllBlogs); // Admin Dashboard
 

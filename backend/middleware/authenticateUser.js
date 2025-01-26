@@ -27,15 +27,15 @@ const authenticateUser = (req, res, next) => {
 
 const authorization = (...roles) => {
   const checkPermission = (req, res, next) => {
-    const { user } = req;
-    if (!user) {
+    const { userId } = req;
+    if (!userId) {
       return next(new AppError('User not found', 404));
     }
 
     const hasPermission = roles.some((role) => {
-      if (role === 'admin' && user.isAdmin) return true;
-      if (role === 'moderator' && user.isModerator) return true;
-      if (role === 'user' && user.isUser) return true;
+      if (role === 'admin' && userId.isAdmin) return true;
+      if (role === 'moderator' && userId.isModerator) return true;
+      if (role === 'user' && userId.isUser) return true;
       return false;
     });
 
