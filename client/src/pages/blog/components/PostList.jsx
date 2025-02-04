@@ -1,19 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import PostListItem from './PostListItem';
-import axios from 'axios';
+import axiosInstance from '../../../api/axiosInstance';
+// import axios from 'axios';
 
 const fetchPosts = async () => {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts`);
+  const response = await axiosInstance.get('/blogs');
   return response.data;
 };
 
 const PostList = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ['repoData'],
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['posts'],
     queryFn: fetchPosts,
   });
 
-  if (isPending) return 'Loading...';
+  if (isLoading) return 'Loading...';
 
   if (error) return 'An error has occurred: ' + error.message;
 

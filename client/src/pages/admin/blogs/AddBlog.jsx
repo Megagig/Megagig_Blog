@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Image, Link, List, Bold, Italic, Code } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+// import axios from 'axios';
+import { useAuthStore } from '../../../store/authStore';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axiosInstance from '../../../api/axiosInstance';
 
 const AddBlog = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuthStore();
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -9,20 +17,44 @@ const AddBlog = () => {
     image: '',
     tags: '',
     excerpt: '',
-    status: 'draft'
+    status: 'draft',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const mutation = useMutation({
+    mutationFn: (newPost) => {
+      return axiosInstance.post('/blogs', newPost);
+    },
+    onSuccess: () => {
+      toast.success('Blog post created successfully');
+      navigate('/admin/blogs');
+    },
+    onError: (error) => {
+      toast.error(`Error creating blog post: ${error.message}`);
+    },
+  });
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement blog creation logic
-    console.log('Form data:', formData);
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    const data = {
+      ...formData,
+      author: user._id,
+    };
+
+    mutation.mutate(data);
+    console.log(data);
   };
 
   return (
     <div className="p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Create New Blog Post</h1>
-
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          Create New Blog Post
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm">
             {/* Title */}
@@ -33,7 +65,9 @@ const AddBlog = () => {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter blog title"
               />
@@ -47,7 +81,9 @@ const AddBlog = () => {
                 </label>
                 <select
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select category</option>
@@ -63,7 +99,9 @@ const AddBlog = () => {
                 <input
                   type="text"
                   value={formData.tags}
-                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, tags: e.target.value })
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter tags (comma separated)"
                 />
@@ -78,33 +116,17 @@ const AddBlog = () => {
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 <Image className="mx-auto text-gray-400 mb-4" size={48} />
                 <div className="space-y-2">
-                  <button type="button" className="text-blue-600 hover:text-blue-700 font-medium">
+                  <button
+                    type="button"
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
                     Upload an image
                   </button>
                   <p className="text-sm text-gray-500">or drag and drop</p>
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <p className="text-xs text-gray-500">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
                 </div>
-              </div>
-            </div>
-
-            {/* Rich Text Editor Toolbar */}
-            <div className="mb-4 border border-gray-200 rounded-lg p-2">
-              <div className="flex items-center gap-2">
-                <button type="button" className="p-2 hover:bg-gray-100 rounded">
-                  <Bold size={20} className="text-gray-600" />
-                </button>
-                <button type="button" className="p-2 hover:bg-gray-100 rounded">
-                  <Italic size={20} className="text-gray-600" />
-                </button>
-                <button type="button" className="p-2 hover:bg-gray-100 rounded">
-                  <List size={20} className="text-gray-600" />
-                </button>
-                <button type="button" className="p-2 hover:bg-gray-100 rounded">
-                  <Link size={20} className="text-gray-600" />
-                </button>
-                <button type="button" className="p-2 hover:bg-gray-100 rounded">
-                  <Code size={20} className="text-gray-600" />
-                </button>
               </div>
             </div>
 
@@ -115,7 +137,9 @@ const AddBlog = () => {
               </label>
               <textarea
                 value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, content: e.target.value })
+                }
                 rows={12}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your blog content here..."
@@ -129,7 +153,9 @@ const AddBlog = () => {
               </label>
               <textarea
                 value={formData.excerpt}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, excerpt: e.target.value })
+                }
                 rows={3}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write a short excerpt..."
@@ -148,7 +174,9 @@ const AddBlog = () => {
                     name="status"
                     value="draft"
                     checked={formData.status === 'draft'}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Draft</span>
@@ -159,7 +187,9 @@ const AddBlog = () => {
                     name="status"
                     value="published"
                     checked={formData.status === 'published'}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
                     className="text-blue-600 focus:ring-blue-500"
                   />
                   <span>Published</span>
